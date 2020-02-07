@@ -33,7 +33,7 @@ resources:
   Outputs:
     SubmissionsTableArn:
       Value:
-        Fn:GetAtt:
+        Fn::GetAtt:
           - SubmissionsTable
           - Arn
       Export:
