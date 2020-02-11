@@ -10,7 +10,7 @@ custom:
 provider:
   name: aws
   stage: dev
-  region: eu-north-1
+  region: eu-west-1
 
 resources:
   Resources:
@@ -25,9 +25,9 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: userId
-            KeyType: HASH # Patition key
+            KeyType: HASH
           - AttributeName: submissionId
-            KeyType: RANGE # Equals to Sort key
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 
   Outputs:
