@@ -17,14 +17,13 @@ resources:
     certificatesBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:custom.bucketName}
         # Set the CORS policy
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - "*"
+                - '*'
               AllowedHeaders:
-                - "*"
+                - '*'
               AllowedMethods:
                 - GET
                 - PUT
