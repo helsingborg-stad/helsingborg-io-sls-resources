@@ -1,4 +1,5 @@
 {
   "apiUrl": "some.url.com",
-  "passphrase": "somepassphrase"
+  "passphrase": "somepassphrase",
+  "bucketName": "replace_with_bucket_name"
 }
