@@ -1,0 +1,6 @@
+{
+  "serviceEndpoint": "https://replace.this.url/with/real/endpoint",
+  "assistantIAMKey": "reaplace_with_real_assistant_iam_key",
+  "assistantId": "replace_with_real_assistant_id",
+  "assistantVersionDate": "replace_with_real_date"
+}
