@@ -18,17 +18,12 @@ resources:
         # Set the CORS policy
         CorsConfiguration:
           CorsRules:
-            -
-              AllowedOrigins:
-                - "*"
+            - AllowedOrigins:
+                - '*'
               AllowedHeaders:
                 - '*'
               AllowedMethods:
                 - GET
-                - PUT
-                - POST
-                - DELETE
-                - HEAD
               MaxAge: 3000
 
   # Print out the name of the bucket that is created
@@ -40,8 +35,3 @@ resources:
           - Arn
       Export:
         Name: ${self:custom.stage}-CertificatesBucketArn
-
-    CertificatesBucketName:
-      Value: !Ref CertificatesBucket
-      Export:
-        Name: ${self:custom.stage}-CertificatesBucket
