@@ -1,4 +1,4 @@
-# Serverless Framework - Backend Resources (AWS)
+# API Platform Resources - Serverless Framework - AWS
 
 ## The concept
 
