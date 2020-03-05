@@ -1,4 +1,4 @@
-# Serverless Framework (AWS)
+# Serverless Framework - Backend Resources (AWS)
 
 ## The concept
 
@@ -28,11 +28,11 @@ brew install awscli
 
 ### Create an AWS IAM User
 
-- Follow [this](https://serverless-stack.com/chapters/create-an-iam-user.html) guide
+- Please follow [this](https://serverless-stack.com/chapters/create-an-iam-user.html) guide
 
 **Take a note of the Access key ID and Secret access key.**
 
-### Add your access key for the IAM User to AWS CLI
+### Adding your access key for the IAM User to AWS CLI
 
 It should look something like this:
 
@@ -41,7 +41,7 @@ It should look something like this:
 
 Simply run the following with your Secret Key ID and your Access Key.
 
-You can leave the **Default region** name and **Default output** format the way they are.
+(You can leave the **Default region** name and **Default output** format the way they are)
 
 ```
 aws configure
@@ -49,24 +49,23 @@ aws configure
 
 ### Serverless Framework
 
-The Serverless Framework helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require. It's a CLI that offers structure, automation and best practices out-of-the-box, allowing you to focus on building sophisticated, event-driven, serverless architectures, comprised of Functions and Events.
-
-The Serverless Framework is different from other application frameworks because:
-
-- It manages your code as well as your infrastructure
-- It supports multiple languages (Node.js, Python, Java, and more)
+The Serverless Framework helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require.
 
 ```
 npm install serverless -g
 ```
 
-## Resources
+## Usage
+
+Clone this repo.
+
+```
+git clone git@github.com:helsingborg/helsingborg-io-sls-resources.git
+```
 
 ### Environment variables (SSM)
 
 ```
-git clone https://github.com/helsingborg/helsingborg-io-sls-resources
-
 cd helsingborg-io-sls-resources/parameterStore
 
 chmod +x ssmPutParameter.sh
@@ -81,7 +80,7 @@ cd ../certificates
 sls deploy
 ```
 
-**Take a note of the Bucket ID.**
+**Take a note of the generated bucket name.**
 
 ### Database (DynamoDB)
 
@@ -89,3 +88,5 @@ sls deploy
 cd ../database
 sls deploy
 ```
+
+Once you deploy the resources in this repo, head over to this [accompanying repo](https://github.com/helsingborg-stad/helsingborg-io-sls-api) to deploy the API services.
