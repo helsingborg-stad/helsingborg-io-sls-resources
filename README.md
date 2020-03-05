@@ -83,7 +83,7 @@ sls deploy
 
 **Take a note of the Bucket ID.**
 
-### Database
+### Database (DynamoDB)
 
 ```
 cd ../database
