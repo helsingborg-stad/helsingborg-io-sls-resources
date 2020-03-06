@@ -66,7 +66,7 @@ git clone git@github.com:helsingborg-stad/helsingborg-io-sls-resources.git
 ### Environment variables (SSM)
 
 ```
-cd helsingborg-io-sls-resources/parameterStore
+cd helsingborg-io-sls-resources/services/parameterStore
 
 chmod +x ssmPutParameter.sh
 
