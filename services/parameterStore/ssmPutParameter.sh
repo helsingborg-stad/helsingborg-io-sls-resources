@@ -19,8 +19,9 @@ do
 
   echo "Creating SSM paramter $NAME with value: $VALUE"
 
-  aws ssm put-parameter    \
-    --type SecureString    \
-    --name "/$NAME/dev"    \
-    --value "$VALUE"
+  aws ssm put-parameter   \
+    --region eu-north-1   \
+    --type SecureString   \
+    --name "/$NAME/dev"   \
+    --value "$VALUE" > /dev/null
 done
