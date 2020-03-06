@@ -4,7 +4,10 @@ custom:
   stage: ${file(../../serverless.common.yml):custom.stage}
   tableName: ${self:custom.stage}-submissions
 
-provider: ${file(../../serverless.common.yml):provider}
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
 
 resources:
   Resources:
