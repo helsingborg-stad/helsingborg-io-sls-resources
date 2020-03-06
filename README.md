@@ -60,7 +60,7 @@ npm install serverless -g
 Clone this repo.
 
 ```
-git clone git@github.com:helsingborg/helsingborg-io-sls-resources.git
+git clone git@github.com:helsingborg-stad/helsingborg-io-sls-resources.git
 ```
 
 ### Environment variables (SSM)
