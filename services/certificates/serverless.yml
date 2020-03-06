@@ -2,7 +2,10 @@ service: helsingborg-io-sls-certificates
 
 custom: ${file(../../serverless.common.yml):custom}
 
-provider: ${file(../../serverless.common.yml):provider}
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
 
 resources:
   Resources:
