@@ -1,32 +1,32 @@
-import { config, DynamoDB } from 'aws-sdk';
-import { readFileSync } from 'fs';
+const AWS = require('aws-sdk');
+const fs = require('fs');
 
 const stage = process.argv.slice(2)[0] || 'dev';
 
-config.update({
+AWS.config.update({
   region: 'eu-north-1'
 });
 
 // Future stuff
 function deleteData() {
-  console.log('\n😢 Goodbye Users...');
+  console.log('\n😢 Goodbye Users... [NOT IMPLEMENTED]');
   process.exit();
 }
 
 function loadData() {
-  const docClient = new DynamoDB.DocumentClient();
+  const docClient = new AWS.DynamoDB.DocumentClient();
 
-  console.log('Importing users into DynamoDb. Please wait...');
+  console.log('Importing users into AWS DynamoDb. Please wait...');
 
-  const users = JSON.parse(readFileSync(`${__dirname}/data/users.json`, 'utf-8'));
+  const users = JSON.parse(fs.readFileSync(`${__dirname}/data/users.json`, 'utf-8'));
 
-  users.forEach((user) => {
+  users.forEach(function(user) {
     const params = {
       TableName: `${stage}-user`,
       Item: { ...user }
     };
 
-    docClient.put(params, (err, data) => {
+    docClient.put(params, function(err, data) {
       if (err) {
         console.error('👎 Unable to add user', user.id, '. Error JSON:', JSON.stringify(err, null, 2))
       } else {
