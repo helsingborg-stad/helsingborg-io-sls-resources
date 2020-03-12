@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "e7821964-3fea-4b67-88aa-bc2bb533c095",
+    "personalNumber": "197608191234",
+    "firstName": "Dan",
+    "lastName": "Nilsson",
+    "email": "dan@example.com",
+    "citizenshipCountryCode": "se",
+    "mobilePhone": "00462123123",
+    "zipCode": "25732",
+    "city": "RYDEBÄCK",
+    "address": "Alnögatan 7",
+    "relationshipStatus": "unmarried"
+  },
+  {
+    "userId": "f3d6910a-ffc9-4620-a6cc-f83bf7a10e81",
+    "personalNumber": "195809262743",
+    "firstName": "Ylva",
+    "lastName": "Jansson",
+    "email": "ylva@example.com",
+    "citizenshipCountryCode": "se",
+    "mobilePhone": "00462123123",
+    "zipCode": "13239",
+    "city": "SALTSJÖ-BOO",
+    "address": "ÅKERVÄGEN 5",
+    "relationshipStatus": "unmarried"
+  },
+  {
+    "userId": "ba47ff85-ad3e-4c34-8e85-796d279a7849",
+    "personalNumber": "195003042222",
+    "firstName": "Stella Ann",
+    "lastName": "Vaan Den Dubois",
+    "email": "dubois@example.com",
+    "citizenshipCountryCode": "se",
+    "mobilePhone": "00462123123",
+    "zipCode": "98129",
+    "city": "KIRUNA",
+    "address": "KATTUVUOMA 2",
+    "relationshipStatus": "unmarried"
+  },
+  {
+    "userId": "4ab43523-57b4-4671-9451-513e9c82993a",
+    "republicEra": "41 BBY",
+    "firstName": "Darth",
+    "lastName": "Vader",
+    "email": "darthvader@sith.com",
+    "citizenshipCountryCode": "tatooine",
+    "relationshipStatus": "unmarried"
+  }
+]

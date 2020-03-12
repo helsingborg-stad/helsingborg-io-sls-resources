@@ -2,16 +2,19 @@ service: database-user
 
 custom:
   stage: ${file(../../serverless.common.yml):custom.stage}
-  tableName: ${self:custom.stage}-user
+  tableName: ${self:custom.stage}-users
 
 provider:
   name: aws
   stage: dev
   region: eu-north-1
 
+  environment:
+    stage: ${self:custom.stage}
+
 resources:
   Resources:
-    UserTable:
+    UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.tableName}
@@ -24,10 +27,10 @@ resources:
         BillingMode: PAY_PER_REQUEST
 
   Outputs:
-    UserTableArn:
+    UsersTableArn:
       Value:
         Fn::GetAtt:
-          - UserTable
+          - UsersTable
           - Arn
       Export:
-        Name: ${self:custom.stage}-UserTableArn
+        Name: ${self:custom.stage}-UsersTableArn
