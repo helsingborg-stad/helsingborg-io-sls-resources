@@ -1,0 +1,34 @@
+{
+  "name": "helsingborg-io-sls-userdatabase",
+  "version": "0.0.1",
+  "description": "User Database using AWS DynamoDB",
+  "scripts": {
+    "sample": "node ./data/loadUserData.js",
+    "lint": "eslint --ignore-path .gitignore ."
+  },
+  "repository": "git+https://github.com/helsingborg-stad/helsingborg-io-sls-resources.git",
+  "keywords": [],
+  "author": "Helsingborg Stad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources/issues"
+  },
+  "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
+  },
+  "main": "loadUserData.js",
+  "dependencies": {
+    "uuid": "^7.0.2",
+    "await-to-js": "^2.1.1",
+    "aws-sdk": "^2.638.0"
+  }
+}
