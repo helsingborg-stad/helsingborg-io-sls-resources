@@ -18,11 +18,11 @@ function loadData() {
 
   console.log('Importing users into AWS DynamoDb. Please wait...');
 
-  const users = JSON.parse(fs.readFileSync(`${__dirname}/data/users.json`, 'utf-8'));
+  const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 
   users.forEach(function(user) {
-    const params = {
-      TableName: `${stage}-user`,
+    let params = {
+      TableName: `${stage}-users`,
       Item: { ...user }
     };
 
