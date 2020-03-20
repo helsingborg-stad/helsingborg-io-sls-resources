@@ -2,8 +2,10 @@
 
 # (C) Helsingborg Stad
 
-FILES=./envs/*
+FILES=./envs/"[^example.]*"
 STAGE=$1
+
+echo $FILES
 
 # Confirm that we have the AWS cli
 if ! [ -x "$(command -v "aws")" ]; then
@@ -28,6 +30,7 @@ do
   aws ssm put-parameter     \
     --region eu-north-1     \
     --type SecureString     \
+    --overwrite             \
     --name "/$NAME/$STAGE"  \
     --value "$VALUE" > /dev/null
 done
