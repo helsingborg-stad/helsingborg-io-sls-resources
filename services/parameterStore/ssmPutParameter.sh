@@ -1,12 +1,18 @@
-#!/bin/bash -eu
+#!/bin/bash
 
 # (C) Helsingborg Stad
 
 FILES=./envs/*
+STAGE=$1
 
 # Confirm that we have the AWS cli
 if ! [ -x "$(command -v "aws")" ]; then
   echo "Error: The aws-cli is not on the path. Perhaps it is not installed?"
+  exit 1
+fi
+
+if [ -z $STAGE ]; then
+  echo "Missing stage name"
   exit 1
 fi
 
@@ -19,9 +25,9 @@ do
 
   echo "Creating SSM paramter $NAME with value: $VALUE"
 
-  aws ssm put-parameter   \
-    --region eu-north-1   \
-    --type SecureString   \
-    --name "/$NAME/dev"   \
+  aws ssm put-parameter     \
+    --region eu-north-1     \
+    --type SecureString     \
+    --name "/$NAME/$STAGE"  \
     --value "$VALUE" > /dev/null
 done
