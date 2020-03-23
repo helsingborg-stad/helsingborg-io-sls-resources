@@ -1,5 +1,7 @@
 {
   "apiUrl": "some.url.com",
   "passphrase": "somepassphrase",
-  "bucketName": "replace_with_bucket_name"
+  "bucketName": "replace_with_bucket_name",
+  "caName": "replace_with_ca_file_name",
+  "pfxName": "replace_with_pfx_file_name"
 }
