@@ -52,4 +52,4 @@ env.yml
 .DS_Store
 .vscode
 
-[!example.]*
+[!example.]*.json
