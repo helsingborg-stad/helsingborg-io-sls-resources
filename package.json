@@ -1,0 +1,25 @@
+{
+  "name": "helsingborg-io-sls-resources",
+  "version": "1.0.0",
+  "description": "Serverless resources for helsingborg-io aws api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helsingborg-stad/helsingborg-io-sls-resources.git"
+  },
+  "author": "Heslingborg Stad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources/issues"
+  },
+  "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
+  "dependencies": {
+    "aws-sdk": "^2.648.0",
+    "serverless": "^1.67.0",
+    "serverless-bundle": "^1.3.2",
+    "serverless-offline": "^6.1.2"
+  }
+}
