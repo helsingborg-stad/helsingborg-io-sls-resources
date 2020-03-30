@@ -1,0 +1,45 @@
+service: hbg-io-sls-gateway
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+custom: ${file(../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: eu-north-1
+  tracing:
+    apiGateway: true
+    lambda: true
+
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+functions:
+  apiRoot:
+    handler: handler.main
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+resources:
+  Outputs:
+    ApiGatewayRestApiId:
+      Value:
+        Ref: ApiGatewayRestApi
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiId
+
+    ApiGatewayRestApiRootResourceId:
+      Value:
+        Fn::GetAtt:
+          - ApiGatewayRestApi
+          - RootResourceId
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId

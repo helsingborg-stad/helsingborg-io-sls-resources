@@ -1,0 +1,40 @@
+service: hbg-io-sls-api-resource-user
+
+custom: ${file(../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: eu-north-1
+  tracing:
+    apiGateway: true
+    lambda: true
+  apiGateway:
+    restApiId:
+      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId:
+      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+    restApiResources:
+      auth:
+        "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiAuth
+
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+resources:
+  Resources:
+    ApiGatewayResourceUser:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: user
+
+  Outputs:
+    ApiGatewayResourceUser:
+      Value:
+        Ref: ApiGatewayResourceUser
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceUser
