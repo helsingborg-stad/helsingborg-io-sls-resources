@@ -25,16 +25,16 @@ provider:
 
 resources:
   Resources:
-    ApiGatewayResourceUser:
+    ApiGatewayResourceUsers:
       Type: AWS::ApiGateway::Resource
       Properties:
         RestApiId: ${self:provider.apiGateway.restApiId}
         ParentId: ${self:provider.apiGateway.restApiRootResourceId}
-        PathPart: user
+        PathPart: users
 
   Outputs:
-    ApiGatewayResourceUser:
+    ApiGatewayResourceUsers:
       Value:
-        Ref: ApiGatewayResourceUser
+        Ref: ApiGatewayResourceUsers
       Export:
-        Name: ${self:custom.stage}-ExtApiGatewayResourceUser
+        Name: ${self:custom.stage}-ExtApiGatewayResourceUsers
