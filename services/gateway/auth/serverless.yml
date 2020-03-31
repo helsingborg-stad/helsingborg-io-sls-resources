@@ -1,4 +1,4 @@
-service: hbg-io-sls-api-resource-auth
+service: hbg-gateway-resource-auth
 
 custom: ${file(../../../serverless.common.yml):custom}
 
