@@ -1,4 +1,4 @@
-service: hbg-io-sls-api-resource-chat
+service: hbg-gateway-resource-chat
 
 custom: ${file(../../../serverless.common.yml):custom}
 

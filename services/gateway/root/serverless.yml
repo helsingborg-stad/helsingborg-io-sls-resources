@@ -1,4 +1,4 @@
-service: hbg-io-sls-gateway
+service: hbg-gateway-root
 
 plugins:
   - serverless-bundle
