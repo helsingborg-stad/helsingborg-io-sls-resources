@@ -9,7 +9,7 @@ provider:
   region: eu-north-1
   tracing:
     apiGateway: true
-    lambda: true
+
   apiGateway:
     restApiId:
       "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
