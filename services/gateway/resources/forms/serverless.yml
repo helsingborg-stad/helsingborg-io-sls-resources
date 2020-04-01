@@ -9,7 +9,6 @@ provider:
   region: eu-north-1
   tracing:
     apiGateway: true
-
   apiGateway:
     restApiId:
       "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
@@ -22,16 +21,16 @@ provider:
 
 resources:
   Resources:
-    ApiGatewayResourceUsers:
+    ApiGatewayResourceForms:
       Type: AWS::ApiGateway::Resource
       Properties:
         RestApiId: ${self:provider.apiGateway.restApiId}
         ParentId: ${self:provider.apiGateway.restApiRootResourceId}
-        PathPart: users
+        PathPart: forms
 
   Outputs:
-    ApiGatewayResourceUsers:
+    ApiGatewayResourceForms:
       Value:
-        Ref: ApiGatewayResourceUsers
+        Ref: ApiGatewayResourceForms
       Export:
-        Name: ${self:custom.stage}-ExtApiGatewayResourceUsers
+        Name: ${self:custom.stage}-ExtApiGatewayResourceForms
