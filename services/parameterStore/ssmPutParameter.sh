@@ -35,6 +35,8 @@ fi
 
 for f in $FILES
 do
+  # Ignore if file starts with _
+  [[ $f =~ ^.*_.* ]] && continue
   echo "Processing $f..."
   NAME=$(basename $f .json)
   # take action on each file. $f store current file name
@@ -48,4 +50,5 @@ do
     --overwrite             \
     --name "/$NAME/$STAGE"  \
     --value "$VALUE" > /dev/null
+
 done
