@@ -1,6 +1,6 @@
 service: hbg-gateway-resource-user
 
-custom: ${file(../../../serverless.common.yml):custom}
+custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
   name: aws
