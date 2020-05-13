@@ -1,7 +1,7 @@
 service: database-users
 
 custom:
-  stage: ${file(../../serverless.common.yml):custom.stage}
+  stage: ${file(../../../serverless.common.yml):custom.stage}
   tableName: ${self:custom.stage}-users
 
 provider:
