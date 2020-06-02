@@ -1,4 +1,4 @@
-service: hbg-gateway-resource-user
+service: hbg-gateway-resource-forms
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
@@ -9,6 +9,7 @@ provider:
   region: eu-north-1
   tracing:
     apiGateway: true
+
   apiGateway:
     restApiId:
       "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
