@@ -1,4 +1,4 @@
-service: database-users
+service: hbg-dynamodb-users
 
 custom:
   stage: ${file(../../../serverless.common.yml):custom.stage}
@@ -8,10 +8,6 @@ provider:
   name: aws
   stage: dev
   region: eu-north-1
-  profile: default
-
-  environment:
-    stage: ${self:custom.stage}
 
 resources:
   Resources:
