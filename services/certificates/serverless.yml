@@ -1,4 +1,4 @@
-service: helsingborg-io-sls-certificates
+service: certificates-s3
 
 custom: ${file(../../serverless.common.yml):custom}
 
