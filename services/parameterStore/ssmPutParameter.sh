@@ -9,15 +9,19 @@ if ! [ -x "$(command -v "aws")" ]; then
 fi
 
 FILES=./envs/"[^example.]*"
+CMD=aws
 
 usage() {
-  echo "usage: ssmPutParameter.sh [[-s stage] | [-h]]"
+  echo "usage: ssmPutParameter.sh -p profile -s stage [-h]"
 }
 
 while [ "$1" != "" ]; do
   case $1 in
     -s | --stage )  shift
                     STAGE=$1
+                    ;;
+    -p | --profile ) shift
+                    PROFILE=$1
                     ;;
     -h | --help )   usage
                     exit
@@ -33,6 +37,10 @@ if [ -z $STAGE ]; then
   exit 1
 fi
 
+if [ -n $PROFILE ]; then
+  CMD="aws --profile=$PROFILE"
+fi
+
 for f in $FILES
 do
   # Ignore if file starts with _
@@ -44,7 +52,7 @@ do
 
   echo "Creating SSM paramter $NAME with value: $VALUE"
 
-  aws ssm put-parameter     \
+  $CMD ssm put-parameter    \
     --region eu-north-1     \
     --type SecureString     \
     --overwrite             \
