@@ -12,7 +12,7 @@ FILES=./envs/"[^example.]*"
 CMD=aws
 
 usage() {
-  echo "usage: ssmPutParameter.sh -p profile -s stage [-h]"
+  echo "usage: ssmPutParameter.sh -s stage [-p profile -h]"
 }
 
 while [ "$1" != "" ]; do
