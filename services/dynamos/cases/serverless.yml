@@ -1,0 +1,37 @@
+service: dynamodb-cases
+
+custom:
+  stage: ${file(../../../serverless.common.yml):custom.stage}
+  tableName: ${self:custom.stage}-cases
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    FormsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+  Outputs:
+    CasesTableArn:
+      Value:
+        Fn::GetAtt:
+          - CasesTable
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-CasesTableArn
