@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
   "devDependencies": {
-    "serverless-bundle": "^1.7"
+    "serverless-bundle": "^1.7",
+    "serverless-offline": "^6.4.0"
   }
 }
