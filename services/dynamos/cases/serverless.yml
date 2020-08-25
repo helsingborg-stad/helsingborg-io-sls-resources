@@ -37,3 +37,11 @@ resources:
           - Arn
       Export:
         Name: ${self:custom.stage}-CasesTableArn
+
+    CasesTableStreamArn:
+      Value:
+        Fn::GetAtt:
+          - CasesTable
+          - StreamArn
+      Export:
+        Name: ${self:custom.stage}-CasesTableStreamArn
