@@ -1,0 +1,36 @@
+service: hbg-s3-attachments
+
+custom: ${file(../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    AttachementsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: hbg-attachments
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+  Outputs:
+    AttachementsBucketArn:
+      Value:
+        Fn::GetAtt:
+          - AttachementsBucket
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-AttachementsBucketArn
