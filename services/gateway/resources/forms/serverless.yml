@@ -1,4 +1,4 @@
-service: gateway-resource-forms
+service: forms-gateway-resource
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
