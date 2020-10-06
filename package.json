@@ -4,7 +4,8 @@
   "description": "Serverless resources for helsingborg-io aws api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,12 @@
   "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
   "devDependencies": {
     "serverless-bundle": "^1.7",
-    "serverless-offline": "^6.4.0"
+    "serverless-offline": "^6.4.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
   }
 }
