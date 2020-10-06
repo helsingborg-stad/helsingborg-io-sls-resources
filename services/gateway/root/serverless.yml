@@ -1,4 +1,4 @@
-service: hbg-gateway-root
+service: gateway-root
 
 plugins:
   - serverless-bundle
