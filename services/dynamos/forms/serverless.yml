@@ -1,4 +1,4 @@
-service: hbg-dynamodb-forms
+service: dynamodb-forms
 
 custom:
   stage: ${file(../../../serverless.common.yml):custom.stage}
@@ -18,13 +18,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: PK
             AttributeType: S
-          - AttributeName: SK
-            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
-          - AttributeName: SK
-            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 
   Outputs:

@@ -1,4 +1,4 @@
-service: hbg-gateway-resource-forms
+service: gateway-resource-forms
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
