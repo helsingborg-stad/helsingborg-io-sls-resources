@@ -1,3 +1,1 @@
-export const main = async () => {
-  return "This is the root endpoint";
-};
+export const main = async () => 'This is the root endpoint';
