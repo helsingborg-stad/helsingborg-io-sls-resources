@@ -1,4 +1,4 @@
-service: dynamodb-forms
+service: forms-dynamodb
 
 custom:
   stage: ${file(../../../serverless.common.yml):custom.stage}

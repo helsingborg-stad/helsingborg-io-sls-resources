@@ -1,4 +1,4 @@
-service: hbg-gateway-resource-user
+service: users-gateway-resource
 
 custom: ${file(../../../../serverless.common.yml):custom}
 

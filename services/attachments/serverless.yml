@@ -1,4 +1,4 @@
-service: hbg-attachments-s3
+service: attachments-s3
 
 custom: ${file(../../serverless.common.yml):custom}
 

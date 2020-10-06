@@ -1,4 +1,4 @@
-service: hbg-dynamodb-users
+service: users-dynamodb
 
 custom:
   stage: ${file(../../../serverless.common.yml):custom.stage}
