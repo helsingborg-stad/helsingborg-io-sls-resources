@@ -14,7 +14,7 @@ resources:
       Properties:
         BucketName: !Join
           - "-"
-          - - "hbg-attachments"
+          - - "attachments-s3"
             - !Select
               - 0
               - !Split
