@@ -1,4 +1,6 @@
 {
   "hashSalt": "somesecretsalt",
-  "vadaUrl": "someurl"
+  "hashSaltLength": 32,
+  "vadaUrl": "someurl",
+  "xApiKeyToken": "sometoken"
 }
