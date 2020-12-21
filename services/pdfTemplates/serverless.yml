@@ -6,6 +6,12 @@ provider:
   name: aws
   stage: dev
   region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+      Resource:
+        - !Ref PdfTemplatesBucketArn
 
 resources:
   Resources:
@@ -14,7 +20,7 @@ resources:
       Properties:
         BucketName: !Join
           - "-"
-          - - "pdf-templates-s3"
+          - - "pdf-case-templates-s3"
             - !Select
               - 0
               - !Split
