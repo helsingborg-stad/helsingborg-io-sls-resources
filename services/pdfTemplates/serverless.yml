@@ -1,0 +1,53 @@
+service: pdfTemplates-s3
+
+custom: ${file(../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    PdfTemplatesBucketArn:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Join
+          - "-"
+          - - "pdf-templates-s3"
+            - !Select
+              - 0
+              - !Split
+                - "-"
+                - !Select
+                  - 2
+                  - !Split
+                    - "/"
+                    - !Ref "AWS::StackId"
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+  Outputs:
+    PdfTemplatesBucketArn:
+      Value:
+        Fn::GetAtt:
+          - PdfTemplatesBucketArn
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-PdfTemplatesBucketArn
+
+    PdfTemplatesBucketName:
+      Value: !Ref PdfTemplatesBucketArn
+
+      Export:
+        Name: ${self:custom.stage}-PdfTemplatesBucketName
