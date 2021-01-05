@@ -20,6 +20,8 @@ resources:
             AttributeType: S
           - AttributeName: SK
             AttributeType: S
+          - AttributeName: formId
+            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
@@ -28,6 +30,24 @@ resources:
         BillingMode: PAY_PER_REQUEST
         StreamSpecification:
           StreamViewType: NEW_IMAGE
+        GlobalSecondaryIndexes:
+          - IndexName: PK-formId-gsi
+            KeySchema: 
+              - AttributeName: PK
+                KeyType: HASH
+              - AttributeName: formId
+                KeyType: RANGE
+            Projection:
+              NonKeyAttributes:
+                - answers
+                - details
+                - SK
+                - updatedAt
+                - createdAt
+                - id 
+                - provider
+                - status
+              ProjectionType: INCLUDE
 
   Outputs:
     CasesTableArn:
