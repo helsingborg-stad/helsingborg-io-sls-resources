@@ -22,7 +22,7 @@ Parameters:
   GitHubBranch:
     Description: Branch name.
     Type: String
-    Default: poc/pipeline-test
+    Default: master
 
 Resources:
   ##
