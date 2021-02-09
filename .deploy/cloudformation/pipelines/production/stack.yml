@@ -23,6 +23,10 @@ Parameters:
     Description: Branch name.
     Type: String
     Default: master
+  GitHubNPMToken:
+    Description: Access token for github npm packages
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: github-npm-token
 
 Resources:
   ##
@@ -100,6 +104,10 @@ Resources:
                       "value": "${StageAccount}"
                     },
                     {
+                      "name": "NPM_TOKEN",
+                      "value": "${GitHubNPMToken}"
+                    },
+                    {
                       "name": "ENV",
                       "value": "stage"
                     }
@@ -133,6 +141,10 @@ Resources:
                       "name": "AWS_ACCOUNT_NBR",
                       "value": "${ProductionAccount}"
                     },
+                    {
+                      "name": "NPM_TOKEN",
+                      "value": "${GitHubNPMToken}"
+                    },                    
                     {
                       "name": "ENV",
                       "value": "production"
