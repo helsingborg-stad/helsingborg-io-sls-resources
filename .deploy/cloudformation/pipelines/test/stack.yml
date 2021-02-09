@@ -19,6 +19,10 @@ Parameters:
     Description: Branch name.
     Type: String
     Default: master
+  GitHubNPMToken:
+    Description: Access token for github npm packages
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: github-npm-token
 
 Resources:
   ##
@@ -96,6 +100,10 @@ Resources:
                       "value": "${TestAccount}"
                     },
                     {
+                      "name": "NPM_TOKEN",
+                      "value": "${GitHubNPMToken}"
+                    },
+                    {
                       "name": "ENV",
                       "value": "test"
                     }
@@ -104,40 +112,6 @@ Resources:
                 - 
                   Name: SourceOutput
               RunOrder: 1
-        - Name: Production
-          Actions:
-            -
-              Name: Approval
-              ActionTypeId:
-                Category: Approval
-                Owner: AWS
-                Version: "1"
-                Provider: Manual
-              RunOrder: 1
-            -
-              Name: DeployProd
-              ActionTypeId:
-                Category: Build
-                Owner: AWS
-                Version: "1"
-                Provider: CodeBuild
-              Configuration:
-                ProjectName: !Sub ${AWS::StackName}-CodeBuildProject
-                EnvironmentVariables: !Sub |
-                  [
-                    {
-                      "name": "AWS_ACCOUNT_NBR",
-                      "value": "${ProductionAccount}"
-                    },
-                    {
-                      "name": "ENV",
-                      "value": "production"
-                    }
-                  ]
-              InputArtifacts: 
-                - 
-                  Name: SourceOutput
-              RunOrder: 2
 
 
 
