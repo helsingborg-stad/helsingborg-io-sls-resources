@@ -1,0 +1,13 @@
+{
+  "recurringFormId": "<from-id>",
+  "templatesFilenames": {
+    "EKB-recurring": {
+      "pdfBaseFilename": "<pdf-filename>",
+      "JSONTemplateFilename": "<json-template-filename>"
+    },
+    "default": {
+      "pdfBaseFilename": "<pdf-filename>",
+      "JSONTemplateFilename": "<json-template-filename>"
+    }
+  }
+}
