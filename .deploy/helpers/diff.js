@@ -14,11 +14,16 @@ import config from '../config.js';
 const diff = lastCommmitHashFile => {
   const servicesPath = `${config.codeBuildPath}/${config.servicesPath}`;
 
-  let gitDiff;
+  let gitDiff = [];
   // Check if any earlier deployed commit sha is stored and get diff fies or return all services if missing.
   if (fs.existsSync(lastCommmitHashFile)) {
     const lastCommmitHash = fs.readFileSync(lastCommmitHashFile, 'utf8').trim();
     try {
+      // Return empty file list if last deploy is on the same commit hash as the current one.
+      if (process.env.CODEBUILD_RESOLVED_SOURCE_VERSION === lastCommmitHash) {
+        return []; 
+      }
+
       gitDiff = childProcess.execSync(
         `git diff ${lastCommmitHash} ${process.env.CODEBUILD_RESOLVED_SOURCE_VERSION} --name-only`
       );

@@ -43,7 +43,7 @@ Resources:
         Image: aws/codebuild/standard:5.0
       Source:
         Type: CODEPIPELINE
-        BuildSpec: .deploy/cloudformation/pipeline/buildspec.yml
+        BuildSpec: .deploy/cloudformation/pipelines/develop/buildspec.yml
       Cache:
         Location: !Sub "${S3BucketArtifact}/cache"
         Type: S3
@@ -63,7 +63,7 @@ Resources:
           Id: !GetAtt KMSKey.KeyId
           Type: KMS
       RoleArn: !GetAtt IAMRolePipeline.Arn
-      Name: !Sub ${AWS::StackName}-Pipeline
+      Name: !Sub ${AWS::StackName}
       Stages:
         - Name: GetSource
           Actions:
