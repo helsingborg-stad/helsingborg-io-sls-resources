@@ -185,13 +185,20 @@ Import the key to AWS KMS.
 aws kms --region $REGION import-key-material --key-id $KEY_ID --encrypted-key-material fileb://EncryptedKeyMaterial.bin --import-token fileb://ImportToken.bin --expiration-model KEY_MATERIAL_DOES_NOT_EXPIRE
 ```
 
-Check the status when done, status should be `Enabled`. Use the KeyId metadata outputted in your dynamoDB and S3 resources in the serverless.yml files key reference arn.
+Check the status when done, status should be `Enabled`. 
 ```
 aws kms --region $REGION describe-key --key-id $KEY_ID
 ```
 
-To make arn dynamic you can reference your created key in serverless.yml files by constructing the ARN like this.
-arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/{your key id}
+To make arn dynamic you can reference your created key in serverless.yml files by constructing the ARN like this with your KEY_ALIAS as a suffix
+```
+arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/{KEY ALIAS}
+```
+
+Following this example, the arn would be
+```
+arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+```
 
 ## Roadmap
 This repo is part of a project called Mitt Helsingborg. See the [project backlog](https://share.clickup.com/l/h/6-33382576-1/763b706816dbf53) for a complete list of upcoming features, known issues and releases.
