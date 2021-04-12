@@ -30,6 +30,10 @@ resources:
         BillingMode: PAY_PER_REQUEST
         StreamSpecification:
           StreamViewType: NEW_IMAGE
+        SSESpecification:
+          KMSMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+          SSEEnabled: true
+          SSEType: KMS
         GlobalSecondaryIndexes:
           - IndexName: PK-formId-gsi
             KeySchema: 
