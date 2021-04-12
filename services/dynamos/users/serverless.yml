@@ -22,6 +22,10 @@ resources:
           - AttributeName: personalNumber
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        SSESpecification:
+          KMSMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+          SSEEnabled: true
+          SSEType: KMS
 
   Outputs:
     UsersTableArn:
