@@ -28,6 +28,9 @@ resources:
           - AttributeName: SK
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+        TimeToLiveSpecification:
+          AttributeName: expirationTime
+          Enabled: true
         StreamSpecification:
           StreamViewType: NEW_IMAGE
         GlobalSecondaryIndexes:
