@@ -2,17 +2,15 @@ service: gateway-root
 
 plugins:
   - serverless-bundle
-  - serverless-offline
 
 custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: dev
   region: eu-north-1
   tracing:
-    apiGateway: true
     lambda: true
 
   environment:
