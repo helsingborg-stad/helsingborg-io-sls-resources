@@ -55,6 +55,14 @@ resources:
                 - provider
                 - status
               ProjectionType: INCLUDE
+          - IndexName: GSI1-SK-index
+            KeySchema: 
+              - AttributeName: GSI1
+                KeyType: HASH
+              - AttributeName: SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
 
   Outputs:
     CasesTableArn:
