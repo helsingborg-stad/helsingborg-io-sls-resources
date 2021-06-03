@@ -20,7 +20,7 @@ resources:
             AttributeType: S
           - AttributeName: SK
             AttributeType: S
-          - AttributeName: formId
+          - AttributeName: GSI1
             AttributeType: S
         KeySchema:
           - AttributeName: PK
@@ -38,23 +38,6 @@ resources:
           SSEEnabled: true
           SSEType: KMS
         GlobalSecondaryIndexes:
-          - IndexName: PK-formId-gsi
-            KeySchema: 
-              - AttributeName: PK
-                KeyType: HASH
-              - AttributeName: formId
-                KeyType: RANGE
-            Projection:
-              NonKeyAttributes:
-                - answers
-                - details
-                - SK
-                - updatedAt
-                - createdAt
-                - id 
-                - provider
-                - status
-              ProjectionType: INCLUDE
           - IndexName: GSI1-SK-index
             KeySchema: 
               - AttributeName: GSI1
