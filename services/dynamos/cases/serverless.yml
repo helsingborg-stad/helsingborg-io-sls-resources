@@ -56,6 +56,12 @@ resources:
       Export:
         Name: ${self:custom.stage}-CasesTableArn
 
+    CasesTableAllIndexArn:
+      Value:
+        Fn::Join: ['/', ['Fn::GetAtt': [ CasesTable, Arn ], 'index', '*']]
+      Export:
+        Name: ${self:custom.stage}-CasesTableAllIndexArn
+
     CasesTableStreamArn:
       Value:
         Fn::GetAtt:
