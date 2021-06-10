@@ -20,8 +20,6 @@ resources:
             AttributeType: S
           - AttributeName: SK
             AttributeType: S
-          - AttributeName: GSI1
-            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
@@ -37,15 +35,6 @@ resources:
           KMSMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
           SSEEnabled: true
           SSEType: KMS
-        GlobalSecondaryIndexes:
-          - IndexName: GSI1-SK-index
-            KeySchema: 
-              - AttributeName: GSI1
-                KeyType: HASH
-              - AttributeName: SK
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
 
   Outputs:
     CasesTableArn:
@@ -55,12 +44,6 @@ resources:
           - Arn
       Export:
         Name: ${self:custom.stage}-CasesTableArn
-
-    CasesTableAllIndexArn:
-      Value:
-        Fn::Join: ['/', ['Fn::GetAtt': [ CasesTable, Arn ], 'index', '*']]
-      Export:
-        Name: ${self:custom.stage}-CasesTableAllIndexArn
 
     CasesTableStreamArn:
       Value:
