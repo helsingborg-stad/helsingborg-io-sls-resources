@@ -29,6 +29,89 @@ functions:
           cors: true
 
 resources:
+  Resources:
+    WAFv2WebACL:
+      Type: AWS::WAFv2::WebACL
+      Properties:
+        Name: WebACL-gateway-root-${self:custom.stage}
+        Scope: REGIONAL
+        Description: WebACL for API Gateway
+        DefaultAction:
+          Allow: {}
+        VisibilityConfig:
+          SampledRequestsEnabled: true
+          CloudWatchMetricsEnabled: true
+          MetricName: WebACL-gateway-root-${self:custom.stage}
+        Rules:
+          - Name: BlockIPs
+            Priority: 0
+            Action:
+              Block: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-BlockIPs
+            Statement:
+              IPSetReferenceStatement:
+                Arn: !GetAtt WAFv2IPSetBlocked.Arn
+          - Name: AWS-AWSManagedRulesAmazonIpReputationList
+            Priority: 1
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-RuleWithAWSManagedRulesMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAmazonIpReputationList
+                ExcludedRules: []
+          - Name: AWS-AWSManagedRulesKnownBadInputsRuleSet
+            Priority: 2
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-RuleWithAWSManagedRulesMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesKnownBadInputsRuleSet
+                ExcludedRules: []
+
+          # - Name: AWS-AWSManagedRulesBotControlRuleSet  # Commented for now because of cost considerations.
+          #   Priority: 3
+          #   OverrideAction:
+          #     None: {}
+          #   VisibilityConfig:
+          #     SampledRequestsEnabled: true
+          #     CloudWatchMetricsEnabled: true
+          #     MetricName: WAF-AWSManagedRulesBotControlRuleSet
+          #   Statement:
+          #     ManagedRuleGroupStatement:
+          #       VendorName: AWS
+          #       Name: AWSManagedRulesBotControlRuleSet
+          #       ExcludedRules: []
+
+    WAFv2IPSetBlocked:
+      Type: AWS::WAFv2::IPSet
+      Properties:
+        Description: Ips that are blocked from the API Gateway
+        Name: BlockedIPs
+        Scope: REGIONAL
+        IPAddressVersion: IPV4
+        Addresses:
+          - 1.2.1.1/32  # Example ip.
+
+
+    WAFv2WebACLAssociation:
+      Type: AWS::WAFv2::WebACLAssociation
+      Properties: 
+        ResourceArn:  !Sub "arn:aws:apigateway:${self:provider.region}::/restapis/${ApiGatewayRestApi}/stages/${self:custom.stage}"
+        WebACLArn: !GetAtt WAFv2WebACL.Arn
+
   Outputs:
     ApiGatewayRestApiId:
       Value:
