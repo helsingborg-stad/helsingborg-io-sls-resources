@@ -11,9 +11,6 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: eu-north-1
-  tracing:
-    apiGateway: true
-    lambda: true
 
   environment:
     stage: ${self:custom.stage}
