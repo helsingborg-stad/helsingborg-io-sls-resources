@@ -2,6 +2,7 @@
   "personpostXmlEndpoint": "replace.with.real.person.post.endpoint",
   "personpostXmlEnvUrl": "replace.with.real.person.post.xml.env.url",
   "bucketName": "replace_with_real_bucket_name",
+  "pfxName": "replace_with_real_pfx_name",
   "passphrase": "replace_with_real_passphrase",
   "orgNr": "replace_with_real_org_nr",
   "orderNr": "replace_with_real_order_nr"
