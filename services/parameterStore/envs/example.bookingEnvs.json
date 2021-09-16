@@ -1,0 +1,5 @@
+{
+  "outlookBookingEndpoint": "datatorget_outlook_booking_endpoint",
+  "apiKey": "datatorget_api_key",
+  "outlookSearchUrl": "datatorget_outlook_search_endpoint"
+}
