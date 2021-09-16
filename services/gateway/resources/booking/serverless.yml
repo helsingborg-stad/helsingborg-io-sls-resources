@@ -1,0 +1,29 @@
+service: booking-gateway-resource
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
+
+  apiGateway:
+    restApiId:
+      !ImportValue ${self:provider.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId:
+      !ImportValue ${self:provider.stage}-ExtApiGatewayRestApiRootResourceId
+
+resources:
+  Resources:
+    ApiGatewayResourceBooking:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: booking
+
+  Outputs:
+    ApiGatewayResourceBooking:
+      Value: !Ref ApiGatewayResourceBooking
+      Export:
+        Name: ${self:provider.stage}-ExtApiGatewayResourceBooking
+
