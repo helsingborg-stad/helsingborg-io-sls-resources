@@ -1,16 +1,18 @@
 service: booking-gateway-resource
 
+custom: ${file(../../../../serverless.common.yml):custom}
+
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'dev'}
+  stage: dev
   region: eu-north-1
 
   apiGateway:
     restApiId:
-      !ImportValue ${self:provider.stage}-ExtApiGatewayRestApiId
+      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
     restApiRootResourceId:
-      !ImportValue ${self:provider.stage}-ExtApiGatewayRestApiRootResourceId
+      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
 
 resources:
   Resources:
@@ -25,5 +27,5 @@ resources:
     ApiGatewayResourceBooking:
       Value: !Ref ApiGatewayResourceBooking
       Export:
-        Name: ${self:provider.stage}-ExtApiGatewayResourceBooking
+        Name: ${self:custom.stage}-ExtApiGatewayResourceBooking
 
