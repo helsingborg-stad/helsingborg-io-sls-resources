@@ -1,0 +1,23 @@
+service: chorme-aws-lambda-layer
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
+  endpointType: regional
+  tracing:
+    lambda: true
+
+layers:
+  chrome-aws-lambda:
+    path: executables
+    name: chrome-aws-lambda-${self:provider.stage}
+    description: Stores all the fonts and executable binaries required to convert html to pdf
+
+resources:
+  Outputs:
+    ChromeDashawsDashlambdaLambdaLayerQualifedArn:
+      Value:
+        Ref: ChromeDashawsDashlambdaLambdaLayer
+      Export:
+        Name: ChromeAwsLambdaLayer-${self:provider.stage}
