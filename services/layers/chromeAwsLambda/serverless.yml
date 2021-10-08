@@ -9,15 +9,16 @@ provider:
     lambda: true
 
 layers:
-  chrome-aws-lambda:
+  chromeAws:
     path: executables
     name: chrome-aws-lambda-${self:provider.stage}
     description: Stores all the fonts and executable binaries required to convert html to pdf
+    compatibleRuntimes: nodejs12.x
 
 resources:
   Outputs:
-    ChromeDashawsDashlambdaLambdaLayerQualifedArn:
+    ChromeAwsLambdaLayerQualifedArn:
       Value:
-        Ref: ChromeDashawsDashlambdaLambdaLayer
+        Ref: ChromeAwsLambdaLayer
       Export:
         Name: ChromeAwsLambdaLayer-${self:provider.stage}
