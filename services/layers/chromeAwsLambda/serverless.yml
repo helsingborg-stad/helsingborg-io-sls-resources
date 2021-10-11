@@ -17,7 +17,7 @@ layers:
 
 resources:
   Outputs:
-    ChromeAwsLambdaLayerQualifedArn:
+    ChromeAwsLambdaLayerArn:
       Value:
         Ref: ChromeAwsLambdaLayer
       Export:
