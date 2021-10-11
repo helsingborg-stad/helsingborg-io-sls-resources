@@ -1,4 +1,4 @@
-service: chorme-aws-lambda-layer
+service: chrome-aws-lambda-layer
 
 provider:
   name: aws
