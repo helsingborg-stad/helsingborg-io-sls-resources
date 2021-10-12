@@ -1,0 +1,53 @@
+service: pdf-storage
+
+custom: ${file(../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    PdfStorageBucketArn:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Join
+          - "-"
+          - - "pdf-storage"
+            - !Select
+              - 0
+              - !Split
+                - "-"
+                - !Select
+                  - 2
+                  - !Split
+                    - "/"
+                    - !Ref "AWS::StackId"
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+  Outputs:
+    PdfStorageBucketArn:
+      Value:
+        Fn::GetAtt:
+          - PdfStorageBucketArn
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-PdfStorageBucketArn
+
+    PdfStorageBucketName:
+      Value: !Ref PdfStorageBucketArn
+
+      Export:
+        Name: ${self:custom.stage}-PdfStorageBucketName
