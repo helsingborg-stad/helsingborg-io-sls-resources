@@ -1,6 +1,6 @@
 service: attachments-s3
 
-custom: ${file(../../serverless.common.yml):custom}
+custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
