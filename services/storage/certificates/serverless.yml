@@ -1,6 +1,6 @@
 service: certificates-s3
 
-custom: ${file(../../serverless.common.yml):custom}
+custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
