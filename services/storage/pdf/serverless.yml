@@ -12,18 +12,6 @@ resources:
     PdfStorageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: !Join
-          - "-"
-          - - "pdf-storage"
-            - !Select
-              - 0
-              - !Split
-                - "-"
-                - !Select
-                  - 2
-                  - !Split
-                    - "/"
-                    - !Ref "AWS::StackId"
         AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:
