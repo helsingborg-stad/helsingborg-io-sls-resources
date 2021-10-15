@@ -12,7 +12,6 @@ resources:
     PdfStorageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:
             - AllowedMethods:
