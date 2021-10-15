@@ -9,7 +9,7 @@ provider:
 
 resources:
   Resources:
-    PdfStorageBucketArn:
+    PdfStorageBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: !Join
