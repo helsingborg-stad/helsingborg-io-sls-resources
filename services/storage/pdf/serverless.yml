@@ -34,7 +34,7 @@ resources:
         Name: ${self:custom.stage}-PdfStorageBucketArn
 
     PdfStorageBucketName:
-      Value: !Ref PdfStorageBucketArn
+      Value: !Ref PdfStorageBucket
 
       Export:
         Name: ${self:custom.stage}-PdfStorageBucketName
