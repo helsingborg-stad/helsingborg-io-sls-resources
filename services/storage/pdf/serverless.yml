@@ -28,7 +28,7 @@ resources:
     PdfStorageBucketArn:
       Value:
         Fn::GetAtt:
-          - PdfStorageBucketArn
+          - PdfStorageBucket
           - Arn
       Export:
         Name: ${self:custom.stage}-PdfStorageBucketArn
