@@ -26,7 +26,7 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
-!/executables/nodejs/node_modules/**/*
+!executables/nodejs/*
 
 # Optional npm cache directory
 .npm
