@@ -1,0 +1,10 @@
+{
+  "bookables": [
+    {
+      "name": "Test tjänst", 
+      "sharedMailbox": "test@helsingborg.se", 
+      "address": "Drottninggatan 2, Helsingborg", 
+      "formId": "xxxx"
+    }
+  ]
+}

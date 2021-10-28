@@ -1,0 +1,30 @@
+service: bookables-gateway-resource
+
+custom: ${file(../../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-north-1
+
+  apiGateway:
+    restApiId:
+      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId:
+      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+resources:
+  Resources:
+    ApiGatewayResourceBookables:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: bookables
+
+  Outputs:
+    ApiGatewayResourceBookables:
+      Value: !Ref ApiGatewayResourceBookables
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceBookables
