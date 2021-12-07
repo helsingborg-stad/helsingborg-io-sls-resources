@@ -1,4 +1,5 @@
 service: gateway-root
+projectDir: ../../../
 
 plugins:
   - serverless-bundle
@@ -8,7 +9,7 @@ custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs14.x
   stage: dev
   region: eu-north-1
 
@@ -104,6 +105,7 @@ resources:
 
 
     WAFv2WebACLAssociation:
+      DependsOn: 'ApiGatewayDeployment${sls:instanceId}'
       Type: AWS::WAFv2::WebACLAssociation
       Properties: 
         ResourceArn:  !Sub "arn:aws:apigateway:${self:provider.region}::/restapis/${ApiGatewayRestApi}/stages/${self:custom.stage}"

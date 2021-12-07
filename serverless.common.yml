@@ -2,3 +2,4 @@ custom:
   # Our stage is based on what is passed in when running serverless
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
+  resourcesStage: ${opt:stage, self:provider.stage}
