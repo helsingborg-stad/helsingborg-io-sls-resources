@@ -20,13 +20,13 @@ function loadData() {
 
   const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 
-  users.forEach(function(user) {
+  users.forEach(function (user) {
     const params = {
       TableName: `${stage}-users`,
       Item: { ...user },
     };
 
-    docClient.put(params, function(err, _data) {
+    docClient.put(params, function (err, _data) {
       if (err) {
         console.error(
           '👎 Unable to add user',

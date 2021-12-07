@@ -12,10 +12,18 @@ provider:
   runtime: nodejs14.x
   stage: dev
   region: eu-north-1
+  logRetentionInDays: 14
 
   environment:
     stage: ${self:custom.stage}
     resourcesStage: ${self:custom.resourcesStage}
+
+  logs:
+    restApi:
+      fullExecutionData: false
+      executionLogging: false
+      accessLogging: true
+      format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
 
 functions:
   apiRoot:
@@ -78,20 +86,6 @@ resources:
                 VendorName: AWS
                 Name: AWSManagedRulesKnownBadInputsRuleSet
                 ExcludedRules: []
-
-          # - Name: AWS-AWSManagedRulesBotControlRuleSet  # Commented for now because of cost considerations.
-          #   Priority: 3
-          #   OverrideAction:
-          #     None: {}
-          #   VisibilityConfig:
-          #     SampledRequestsEnabled: true
-          #     CloudWatchMetricsEnabled: true
-          #     MetricName: WAF-AWSManagedRulesBotControlRuleSet
-          #   Statement:
-          #     ManagedRuleGroupStatement:
-          #       VendorName: AWS
-          #       Name: AWSManagedRulesBotControlRuleSet
-          #       ExcludedRules: []
 
     WAFv2IPSetBlocked:
       Type: AWS::WAFv2::IPSet
