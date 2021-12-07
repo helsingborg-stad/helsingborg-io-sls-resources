@@ -27,7 +27,8 @@
     "no-unused-vars": [
       1,
       {
-        "ignoreSiblings": true,
+        "vars": "all", 
+        "args": "after-used",
         "argsIgnorePattern": "res|next|^err|^_"
       }
     ],
