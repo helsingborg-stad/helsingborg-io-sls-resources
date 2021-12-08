@@ -13,6 +13,8 @@ provider:
   stage: dev
   region: eu-north-1
   logRetentionInDays: 14
+  apiGateway:
+    metrics: true
 
   environment:
     stage: ${self:custom.stage}
@@ -21,7 +23,7 @@ provider:
   logs:
     restApi:
       fullExecutionData: false
-      executionLogging: false
+      executionLogging: true
       accessLogging: true
       format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
 
