@@ -1,5 +1,6 @@
 org: hbgworks
 service: chrome-aws-lambda-layer
+projectDir: ../../../
 
 frameworkVersion: ^3.26.0
 
@@ -9,6 +10,9 @@ provider:
   name: aws
   stage: dev
   region: eu-north-1
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
 
 layers:
   chromeAws:

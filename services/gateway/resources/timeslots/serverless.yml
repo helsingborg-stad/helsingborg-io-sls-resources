@@ -11,6 +11,9 @@ provider:
   region: eu-north-1
   endpointType: regional
 
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+
   apiGateway:
     restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId

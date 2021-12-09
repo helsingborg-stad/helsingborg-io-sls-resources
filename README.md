@@ -88,14 +88,6 @@ Simply run the following with your Secret Key ID and your Access Key.
 aws configure
 ```
 
-### Serverless Framework
-
-The Serverless Framework helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require.
-
-```
-npm install serverless -g
-```
-
 ## Installation
 
 Clone this repo.
@@ -114,20 +106,18 @@ chmod +x ssmPutParameter.sh
 ./ssmPutParameter.sh
 ```
 
-### Certificates (S3 Bucket)
+### Build project
+NOTE that build requires Yarn and Node v14 or higher to be installed
+```
+cd helsingborg-io-sls-resources
+scripts/build.sh
+```
+
+### Deploy project
 
 ```
-cd ../certificates
-sls deploy
-```
-
-**Take a note of the generated bucket name.**
-
-### Database (DynamoDB)
-
-```
-cd ../database
-sls deploy
+cd helsingborg-io-sls-resources
+scripts/deploy.sh
 ```
 
 Once you deploy the resources in this repo, head over to this [accompanying repo](https://github.com/helsingborg-stad/helsingborg-io-sls-api) to deploy the API services.

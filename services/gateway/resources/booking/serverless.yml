@@ -10,6 +10,9 @@ provider:
   stage: dev
   region: eu-north-1
 
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+
   apiGateway:
     restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
