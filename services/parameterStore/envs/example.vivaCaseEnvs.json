@@ -1,4 +1,5 @@
 {
   "recurringFormId": "some_form_id",
-  "completionFormId": "a_form_id"
+  "completionFormId": "some_form_id",
+  "randomCheckFormId": "some_form_id"
 }
