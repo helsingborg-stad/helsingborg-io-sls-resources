@@ -18,6 +18,8 @@ resources:
         AttributeDefinitions:
           - AttributeName: personalNumber
             AttributeType: S
+          - AttributeName: email
+            AttributeType: S
         KeySchema:
           - AttributeName: personalNumber
             KeyType: HASH
@@ -26,6 +28,15 @@ resources:
           KMSMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
           SSEEnabled: true
           SSEType: KMS
+        GlobalSecondaryIndexes:
+        - IndexName: email-index
+          KeySchema:
+            - AttributeName: email
+              KeyType: HASH
+          Projection:
+            NonKeyAttributes:
+            - uuid
+            ProjectionType: 'INCLUDE'
 
   Outputs:
     UsersTableArn:
@@ -35,3 +46,9 @@ resources:
           - Arn
       Export:
         Name: ${self:custom.stage}-UsersTableArn
+
+    UsersTableAllIndexArn:
+      Value:
+        Fn::Join: ['/', ['Fn::GetAtt': [ UsersTable, Arn ], 'index', '*']]
+      Export:
+        Name: ${self:custom.stage}-UsersTableAllIndexArn
