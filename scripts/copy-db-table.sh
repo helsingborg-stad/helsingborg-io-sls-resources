@@ -2,12 +2,25 @@
 #!/bin/zsh
 DIR=${0:a:h}
 
-OUTPUT=/tmp/forms.txt
 TABLE=dev-forms
 
+while [ "$1" != "" ]; do
+    case $1 in
+        -t | --table )
+            shift
+            TABLE=$1
+        ;;
+        *)      
+            exit 1
+    esac
+    shift
+done
+
+OUTPUT=/tmp/${TABLE}.txt
+
 clear
-echo This script extracts Items from the ${TABLE} dynamo db table on an AWS account
-echo creates a file with the commands for recreating them in another.
+echo This script extracts Items from the ${TABLE} dynamo db table of an
+echo  AWS account and creates a file with the commands for recreating them in another.
 echo Before running, make sure that you are logged on to the account
 echo of which database you want to extract from.
 echo
