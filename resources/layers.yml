@@ -1,15 +1,22 @@
-service: chrome-aws-lambda-layer
+service: layers
+projectDir: ../
 
-custom: ${file(../../../serverless.common.yml):custom}
+plugins:
+  - serverless-deployment-bucket
+
+custom: ${file(../serverless.common.yml):custom}
 
 provider:
   name: aws
   stage: dev
   region: eu-north-1
 
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
+
 layers:
   chromeAws:
-    path: executables
+    path: layers/chromeAwsLambda/executables
     name: chrome-aws-lambda-${self:custom.stage}
     description: Stores all the fonts and executable binaries required to convert html to pdf
     compatibleRuntimes: nodejs12.x
