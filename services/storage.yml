@@ -1,0 +1,107 @@
+service: storage
+projectDir: ../
+
+plugins:
+  - serverless-deployment-bucket
+
+custom: ${file(../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
+
+resources:
+  Resources:
+    PdfStorageBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "documents"
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+    CertificatesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "certificates"
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+              MaxAge: 3000
+
+    AttachmentsBucketArn:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "attachments"
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: 'aws:kms'
+                KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+              BucketKeyEnabled: true
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+
+  Outputs:
+    PdfStorageBucketArn:
+      Value:
+        Fn::GetAtt:
+          - PdfStorageBucket
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-PdfStorageBucketArn
+
+    PdfStorageBucketName:
+      Value: !Ref PdfStorageBucket
+
+      Export:
+        Name: ${self:custom.stage}-PdfStorageBucketName
+
+    CertificatesBucketArn:
+      Value:
+        Fn::GetAtt:
+          - CertificatesBucket
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-CertificatesBucketArn
+
+    AttachmentsBucketArn:
+      Value:
+        Fn::GetAtt:
+          - AttachmentsBucketArn
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-AttachmentsBucketArn
+
+    AttachmentsBucketName:
+      Value: !Ref AttachmentsBucketArn
+
+      Export:
+        Name: ${self:custom.stage}-AttachmentsBucketName

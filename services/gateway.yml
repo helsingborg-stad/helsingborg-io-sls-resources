@@ -1,0 +1,255 @@
+service: gateway-root
+projectDir: ../
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+  - serverless-deployment-bucket
+
+custom: ${file(../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-north-1
+  lambdaHashingVersion: "20201221"
+  logRetentionInDays: 14
+  apiGateway:
+    metrics: true
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+  logs:
+    restApi:
+      fullExecutionData: false
+      format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
+
+functions:
+  apiRoot:
+    handler: handler.main
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    WAFv2WebACL:
+      Type: AWS::WAFv2::WebACL
+      Properties:
+        Name: WebACL-gateway-root-${self:custom.stage}
+        Scope: REGIONAL
+        Description: WebACL for API Gateway
+        DefaultAction:
+          Allow: {}
+        VisibilityConfig:
+          SampledRequestsEnabled: true
+          CloudWatchMetricsEnabled: true
+          MetricName: WebACL-gateway-root-${self:custom.stage}
+        Rules:
+          - Name: BlockIPs
+            Priority: 0
+            Action:
+              Block: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-BlockIPs
+            Statement:
+              IPSetReferenceStatement:
+                Arn: !GetAtt WAFv2IPSetBlocked.Arn
+          - Name: AWS-AWSManagedRulesAmazonIpReputationList
+            Priority: 1
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-RuleWithAWSManagedRulesMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAmazonIpReputationList
+                ExcludedRules: []
+          - Name: AWS-AWSManagedRulesKnownBadInputsRuleSet
+            Priority: 2
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: WAF-RuleWithAWSManagedRulesMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesKnownBadInputsRuleSet
+                ExcludedRules: []
+
+    WAFv2IPSetBlocked:
+      Type: AWS::WAFv2::IPSet
+      Properties:
+        Description: Ips that are blocked from the API Gateway
+        Name: BlockedIPs
+        Scope: REGIONAL
+        IPAddressVersion: IPV4
+        Addresses:
+          - 1.2.1.1/32  # Example ip.
+
+    WAFv2WebACLAssociation:
+      DependsOn: 'ApiGatewayDeployment${sls:instanceId}'
+      Type: AWS::WAFv2::WebACLAssociation
+      Properties: 
+        ResourceArn:  !Sub "arn:aws:apigateway:${self:provider.region}::/restapis/${ApiGatewayRestApi}/stages/${self:custom.stage}"
+        WebACLArn: !GetAtt WAFv2WebACL.Arn
+
+    ApiGatewayResourceAuth:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: auth
+
+    ApiGatewayResourceBookables:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: bookables
+
+    ApiGatewayResourceBooking:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: booking
+
+    ApiGatewayResourceCases:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: cases
+
+    ApiGatewayResourceForms:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: forms
+
+    ApiGatewayResourceSearch:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: search
+
+    ApiGatewayResourceTimeSlots:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: timeslots
+
+    ApiGatewayResourceUsers:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ParentId: 
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: users
+
+  Outputs:
+    ApiGatewayRestApiId:
+      Value:
+        Ref: ApiGatewayRestApi
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiId
+
+    ApiGatewayRestApiRootResourceId:
+      Value:
+        Fn::GetAtt:
+          - ApiGatewayRestApi
+          - RootResourceId
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+    ApiGatewayResourceAuth:
+      Value:
+        Ref: ApiGatewayResourceAuth
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceAuth
+
+    ApiGatewayResourceBookables:
+      Value: !Ref ApiGatewayResourceBookables
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceBookables
+
+    ApiGatewayResourceBooking:
+      Value: !Ref ApiGatewayResourceBooking
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceBooking
+
+    ApiGatewayResourceCases:
+      Value:
+        Ref: ApiGatewayResourceCases
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceCases
+
+    ApiGatewayResourceForms:
+      Value:
+        Ref: ApiGatewayResourceForms
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceForms
+
+    ApiGatewayResourceSearch:
+      Value: !Ref ApiGatewayResourceSearch
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceSearch
+
+    ApiGatewayResourceTimeSlots:
+      Value: !Ref ApiGatewayResourceTimeSlots
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceTimeSlots
+
+    ApiGatewayResourceUsers:
+      Value:
+        Ref: ApiGatewayResourceUsers
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceUsers

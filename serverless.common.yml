@@ -5,3 +5,4 @@ custom:
   resourcesStage: ${opt:stage, self:provider.stage}
   bundle:
     linting: false
+  deploymentBucketName: deployment-${aws:accountId}
