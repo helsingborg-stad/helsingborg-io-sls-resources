@@ -6,7 +6,6 @@ frameworkVersion: ^3.26.0
 plugins:
   - serverless-deployment-bucket
 
-
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:

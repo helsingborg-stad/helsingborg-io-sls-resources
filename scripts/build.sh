@@ -1,5 +1,5 @@
-#!/bin/zsh
-DIR=${0:a:h}
+#!/bin/bash
+DIR=$(dirname $0)
 
 # Check node version
 NODE=`node -v | cut -b2-3`

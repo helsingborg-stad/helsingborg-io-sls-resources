@@ -1,5 +1,9 @@
 org: hbgworks
 service: queues-viva
+projectDir: ../../../../
+
+plugins:
+  - serverless-deployment-bucket
 
 frameworkVersion: ^3.26.0
 
@@ -9,6 +13,9 @@ provider:
   name: aws
   stage: dev
   region: eu-north-1
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
 
 resources:
   Resources:

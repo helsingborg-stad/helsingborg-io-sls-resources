@@ -1,5 +1,5 @@
-#!/bin/zsh
-DIR=${0:a:h}
+#!/bin/bash
+DIR=$(dirname $0)
 
 # Stacks to remove
 SERVICES=(
@@ -11,6 +11,7 @@ SERVICES=(
     "gateway/resources/booking"
     "gateway/resources/bookables"
     "gateway/resources/auth"
+    "queues/viva"
     "gateway/root"
     "storage/pdf"
     "storage/certificates"
@@ -18,7 +19,6 @@ SERVICES=(
     "dynamos/users"
     "dynamos/forms"
     "dynamos/cases"
-    "storage/deployment"
 )
 
 # Perform removal

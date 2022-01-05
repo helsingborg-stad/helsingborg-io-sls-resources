@@ -1,5 +1,5 @@
-#!/bin/zsh
-DIR=${0:a:h}
+#!/bin/bash
+DIR=$(dirname $0)
 
 # Check node version
 NODE=`node -v | cut -b2-3`
@@ -15,13 +15,13 @@ yarn global add serverless
 
 # Add services to deploy here (Order is important)
 SERVICES=(
-    "storage/deployment"
     "dynamos/cases"
     "dynamos/forms"
     "dynamos/users"
     "storage/attachments"
     "storage/certificates"
     "storage/pdf"
+    "queues/viva"
     "gateway/root"
     "gateway/resources/auth"
     "gateway/resources/bookables"
@@ -29,8 +29,10 @@ SERVICES=(
     "gateway/resources/cases"
     "gateway/resources/forms"
     "gateway/resources/search"
+    "gateway/resources/status"
     "gateway/resources/timeslots"
     "gateway/resources/users"
+    "gateway/resources/version"
 )
 
 # Run deployments
