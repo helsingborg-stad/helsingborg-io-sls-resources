@@ -19,7 +19,6 @@ resources:
     PdfStorageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: "documents"
         CorsConfiguration:
           CorsRules:
             - AllowedMethods:
@@ -35,7 +34,6 @@ resources:
     CertificatesBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: "certificates"
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
@@ -46,10 +44,9 @@ resources:
                 - GET
               MaxAge: 3000
 
-    AttachmentsBucketArn:
+    AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: "attachments"
         BucketEncryption:
           ServerSideEncryptionConfiguration:
             - ServerSideEncryptionByDefault:
@@ -95,13 +92,13 @@ resources:
     AttachmentsBucketArn:
       Value:
         Fn::GetAtt:
-          - AttachmentsBucketArn
+          - AttachmentsBucket
           - Arn
       Export:
         Name: ${self:custom.stage}-AttachmentsBucketArn
 
     AttachmentsBucketName:
-      Value: !Ref AttachmentsBucketArn
+      Value: !Ref AttachmentsBucket
 
       Export:
         Name: ${self:custom.stage}-AttachmentsBucketName
