@@ -1,8 +1,26 @@
 
-#!/bin/zsh
-DIR=${0:a:h}
-
+#!/bin/bash
+DIR=$(dirname $0)
 OUTPUT=/tmp/secrets.txt
+
+if [ -z ${AWS_VAULT} ]; then
+    echo AWS Vault needs to be installed to run this script.
+    exit 1
+fi
+
+which aws >/dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    echo AWS CLI needs to be installed to run this script.
+    exit 1
+fi
+
+which jq >/dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    echo The JQ tool needs to be installed to run this script.
+    exit 1
+fi
 
 clear
 echo This script extracts AWS Secrets from an AWS account and
