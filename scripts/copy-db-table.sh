@@ -1,22 +1,44 @@
 
-#!/bin/zsh
-DIR=${0:a:h}
-
+#!/bin/bash
+DIR=$(dirname $0)
 TABLE=dev-forms
 
-while [ "$1" != "" ]; do
-    case $1 in
+while [[ $# -gt 1 ]]
+do
+    key="$1"
+    case $key in
         -t | --table )
-            shift
-            TABLE=$1
+        TABLE="$2"
+        shift
         ;;
-        *)      
-            exit 1
+        *)
+        echo "Use --table <table-name> to specify which table to copy"
+        exit 1
+        ;;
     esac
     shift
 done
 
 OUTPUT=/tmp/${TABLE}.txt
+
+if [ -z ${AWS_VAULT} ]; then
+    echo AWS Vault needs to be installed to run this script.
+    exit 1
+fi
+
+which aws >/dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    echo AWS CLI needs to be installed to run this script.
+    exit 1
+fi
+
+which jq >/dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    echo The JQ tool needs to be installed to run this script.
+    exit 1
+fi
 
 clear
 echo This script extracts Items from the ${TABLE} dynamo db table of an
