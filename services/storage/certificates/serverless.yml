@@ -1,4 +1,5 @@
 service: certificates-s3
+projectDir: ../../../
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -12,6 +13,12 @@ resources:
     CertificatesBucket:
       Type: AWS::S3::Bucket
       Properties:
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
         # Set the CORS policy
         CorsConfiguration:
           CorsRules:
@@ -22,6 +29,13 @@ resources:
               AllowedMethods:
                 - GET
               MaxAge: 3000
+
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: 'aws:kms'
+                KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+              BucketKeyEnabled: true
 
   # Print out the name of the bucket that is created
   Outputs:
