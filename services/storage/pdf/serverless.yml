@@ -12,17 +12,11 @@ resources:
     PdfStorageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        CorsConfiguration:
-          CorsRules:
-            - AllowedMethods:
-                - GET
-                - PUT
-                - POST
-                - HEAD
-              AllowedOrigins:
-                - "*"
-              AllowedHeaders:
-                - "*"
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
 
   Outputs:
     PdfStorageBucketArn:
