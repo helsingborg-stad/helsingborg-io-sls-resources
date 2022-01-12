@@ -19,17 +19,6 @@ resources:
           IgnorePublicAcls: true
           RestrictPublicBuckets: true
 
-        # Set the CORS policy
-        CorsConfiguration:
-          CorsRules:
-            - AllowedOrigins:
-                - '*'
-              AllowedHeaders:
-                - '*'
-              AllowedMethods:
-                - GET
-              MaxAge: 3000
-
         BucketEncryption:
           ServerSideEncryptionConfiguration:
             - ServerSideEncryptionByDefault:
