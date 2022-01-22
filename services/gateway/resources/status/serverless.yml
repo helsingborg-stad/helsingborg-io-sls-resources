@@ -1,14 +1,16 @@
 service: status-gateway-resource
 
+projectDir: ../../../../
+
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
+  lambdaHashingVersion: 20201221
   name: aws
   runtime: nodejs14.x
   stage: dev
   region: eu-north-1
-  tracing:
-    apiGateway: true
+  endpointType: regional
 
   apiGateway:
     restApiId:
