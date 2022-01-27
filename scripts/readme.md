@@ -53,4 +53,4 @@ Check out actual name of bucket **certificates-s3-dev-certificatesbucket-XXX** a
 ```
 
 # Manual fixup of settings
-In **AWS Parameter Store**, the parameter **/navetEnvs/dev** must be fixed regarding **bucketName** - fill in the name of your own bucket (_certificates-s3-dev-certificatesbucket-XXX_).
+In **AWS Parameter Store**, the parameter **/navetEnvs/dev** and **bankidEnvs/dev** must be fixed regarding **bucketName** - fill in the name of your own bucket (_certificates-s3-dev-certificatesbucket-XXX_).
