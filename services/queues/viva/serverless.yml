@@ -52,9 +52,6 @@ resources:
 
   Outputs:
     VivaSubmissionQueueArn:
-      Value:
-        Fn::GetAtt:
-          - VivaSubmissionQueue
-          - Arn
+      Value: !GetAtt VivaSubmissionQueue.Arn
       Export:
-        Name: ${self:custom.stage}-VivaSubmissionQueue
+        Name: ${self:custom.stage}-VivaSubmissionQueueArn
