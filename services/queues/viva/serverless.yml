@@ -13,6 +13,7 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:custom.resourcesStage}-VivaSubmissionQueue
+        VisibilityTimeout: 120
 
     EventBridgeToVivaQueuePolicy:
       Type: AWS::SQS::QueuePolicy
