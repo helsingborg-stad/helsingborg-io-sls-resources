@@ -3,7 +3,6 @@ projectDir: ../../../
 
 plugins:
   - serverless-bundle
-  - serverless-offline
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -97,15 +96,24 @@ resources:
         Scope: REGIONAL
         IPAddressVersion: IPV4
         Addresses:
-          - 1.2.1.1/32  # Example ip.
-
+          - 1.2.1.1/32 # Example ip.
 
     WAFv2WebACLAssociation:
       DependsOn: 'ApiGatewayDeployment${sls:instanceId}'
       Type: AWS::WAFv2::WebACLAssociation
-      Properties: 
-        ResourceArn:  !Sub "arn:aws:apigateway:${self:provider.region}::/restapis/${ApiGatewayRestApi}/stages/${self:custom.stage}"
+      Properties:
+        ResourceArn: !Sub 'arn:aws:apigateway:${self:provider.region}::/restapis/${ApiGatewayRestApi}/stages/${self:custom.stage}'
         WebACLArn: !GetAtt WAFv2WebACL.Arn
+
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
 
   Outputs:
     ApiGatewayRestApiId:
