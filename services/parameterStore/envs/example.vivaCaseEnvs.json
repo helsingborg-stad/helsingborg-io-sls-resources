@@ -3,5 +3,6 @@
   "completionFormId": "some_form_id",
   "randomCheckFormId": "some_form_id",
   "newApplicationFormId": "some_form_id",
-  "newApplicationCompletionFormId":  "some_form_id"
+  "newApplicationCompletionFormId":  "some_form_id",
+  "newApplicationRandomCheckFormId": "some_form_id"
 }
