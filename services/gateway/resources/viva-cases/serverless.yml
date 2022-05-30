@@ -9,8 +9,6 @@ provider:
   runtime: nodejs14.x
   stage: dev
   region: eu-north-1
-  tracing:
-    apiGateway: true
 
   apiGateway:
     restApiId:
