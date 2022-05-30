@@ -12,6 +12,7 @@ provider:
   stage: dev
   region: eu-north-1
   logRetentionInDays: 14
+  apiName: ${self:custom.resourcesStage}-gateway-root
   apiGateway:
     metrics: true
 
