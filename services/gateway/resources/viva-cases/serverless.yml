@@ -30,7 +30,7 @@ resources:
         PathPart: viva-cases
 
   Outputs:
-    ApiGatewayResourceCases:
+    ApiGatewayResourceVivaCases:
       Value:
         Ref: ApiGatewayResourceVivaCases
       Export:
