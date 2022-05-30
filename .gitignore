@@ -24,8 +24,9 @@ coverage
 build/Release
 
 # Dependency directories
-/node_modules
+node_modules
 jspm_packages
+!services/layers/**/node_modules
 
 # Optional npm cache directory
 .npm
@@ -51,6 +52,6 @@ env.yml
 # stuff
 .DS_Store
 .vscode
-.dccache 
+.dccache
 
 [!example.]*.json
