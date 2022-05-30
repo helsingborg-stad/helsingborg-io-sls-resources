@@ -1,5 +1,7 @@
 service: viva-cases-gateway-resource
 
+projectDir: ../../../../
+
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
