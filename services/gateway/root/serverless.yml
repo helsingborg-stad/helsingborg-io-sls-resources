@@ -1,4 +1,5 @@
 service: gateway-root
+
 projectDir: ../../../
 
 plugins:
