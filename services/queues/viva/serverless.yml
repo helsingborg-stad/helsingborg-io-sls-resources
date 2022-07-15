@@ -9,10 +9,36 @@ provider:
 
 resources:
   Resources:
+    VivaSubmissionDeadLetterQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.resourcesStage}-VivaSubmissionDeadLetterQueue
+        MessageRetentionPeriod: 1209600  # 14 days
+        RedriveAllowPolicy: 
+          redrivePermission: byQueue
+          sourceQueueArns:
+            - !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-VivaSubmissionQueue
+
+    VivaSubmissionToVivaDeadLetterQueuePolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: sqs.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-VivaSubmissionQueue
+        Queues:
+          - !Ref VivaSubmissionDeadLetterQueue
+
     VivaSubmissionQueue:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:custom.resourcesStage}-VivaSubmissionQueue
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt VivaSubmissionDeadLetterQueue.Arn
+          maxReceiveCount: 10
         VisibilityTimeout: 120
 
     EventBridgeToVivaQueuePolicy:
