@@ -42,6 +42,11 @@ resources:
                 - "*"
               AllowedHeaders:
                 - "*"
+        LifecycleConfiguration:
+          Rules:
+            - Id: 'expire-all-rule'
+              Status: Enabled
+              ExpirationInDays: 3
 
   Outputs:
     AttachmentsBucketArn:
