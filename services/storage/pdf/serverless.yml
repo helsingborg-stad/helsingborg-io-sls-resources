@@ -24,6 +24,17 @@ resources:
                 SSEAlgorithm: 'aws:kms'
                 KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
               BucketKeyEnabled: true
+
+        LifecycleConfiguration:
+          Rules:
+            - Id: 'expire-pdf-rule'
+              Status: Enabled
+              Prefix: 'pdf/'
+              ExpirationInDays: 3
+            - Id: 'expire-html-rule'
+              Status: Enabled
+              Prefix: 'html/'
+              ExpirationInDays: 3
   Outputs:
     PdfStorageBucketArn:
       Value:
