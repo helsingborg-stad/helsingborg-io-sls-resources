@@ -77,12 +77,8 @@ resources:
                 state:
                   S: ["PDF_GENERATED"]
 
-    AlarmTopic:
+    DeadLetterQueueAlarmTopic:
       Type: AWS::SNS::Topic
-      Properties: 
-        Subscription:
-          - Endpoint: 5b8c9a67.helsingborg.se@emea.teams.ms
-            Protocol: email
 
     QueueDepthAlarm:
       Type: AWS::CloudWatch::Alarm
@@ -96,13 +92,10 @@ resources:
         Statistic: Sum
         Period: 300
         EvaluationPeriods: 1
-        Threshold: 1
+        Threshold: 0
         ComparisonOperator: GreaterThanThreshold
         AlarmActions:
-          - Ref: AlarmTopic
-        InsufficientDataActions:
-          - Ref: AlarmTopic
-
+          - Ref: DeadLetterQueueAlarmTopic
 
   Outputs:
     VivaSubmissionQueueArn:
