@@ -9,4 +9,3 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   resourcesStage: ${opt:stage, self:provider.stage}
   deploymentBucket: deployment-${aws:accountId}
-  

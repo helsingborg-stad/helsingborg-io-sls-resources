@@ -1,8 +1,10 @@
 org: hbgworks
 service: attachments-s3
-projectDir: ../../../
 
 frameworkVersion: ^3.26.0
+
+plugins:
+  - serverless-deployment-bucket
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -12,7 +14,7 @@ provider:
   region: eu-north-1
 
   deploymentBucket:
-    name: ${self:custom.deploymentBucket}
+    name: ${self:custom.deploymentBucketName}
 
 resources:
   Resources:

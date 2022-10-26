@@ -3,6 +3,10 @@ service: gateway-root
 
 frameworkVersion: ^3.26.0
 
+plugins:
+  - serverless-bundle
+  - serverless-deployment-bucket
+
 custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
@@ -19,7 +23,7 @@ provider:
     resourcesStage: ${self:custom.resourcesStage}
 
   deploymentBucket:
-    name: ${self:custom.deploymentBucket}
+    name: ${self:custom.deploymentBucketName}
 
 functions:
   apiRoot:
