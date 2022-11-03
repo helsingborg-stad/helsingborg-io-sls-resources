@@ -47,6 +47,9 @@ resources:
             - Id: 'expire-all-rule'
               Status: Enabled
               ExpirationInDays: 3
+        NotificationConfiguration:
+          EventBridgeConfiguration: 
+            EventBridgeEnabled: true
 
   Outputs:
     AttachmentsBucketArn:
@@ -59,6 +62,5 @@ resources:
 
     AttachmentsBucketName:
       Value: !Ref AttachmentsBucketArn
-
       Export:
         Name: ${self:custom.stage}-AttachmentsBucketName
