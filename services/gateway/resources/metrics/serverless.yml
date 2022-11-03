@@ -1,0 +1,37 @@
+service: metrics-gateway-resource
+
+custom: ${file(../../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-north-1
+  tracing:
+    apiGateway: true
+
+  apiGateway:
+    restApiId:
+      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId:
+      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+resources:
+  Resources:
+    ApiGatewayResourceMetrics:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: metrics
+
+  Outputs:
+    ApiGatewayResourceMetrics:
+      Value:
+        Ref: ApiGatewayResourceMetrics
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceMetrics
