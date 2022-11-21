@@ -35,6 +35,7 @@
   - [KMS](#kms)
     - [Prerequisites](#prerequisites-1)
     - [Create and import key in AWS](#create-and-import-key-in-aws)
+    - [Allow AWS EventBridge to send messages to encrypted SQS](#allow-aws-eventbridge-to-send-messages-to-encrypted-sqs)
   - [Roadmap](#roadmap)
   - [Contributing](#contributing)
   - [License](#license)
@@ -199,6 +200,19 @@ Following this example, the arn would be
 ```
 arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
 ```
+
+### Allow AWS EventBridge to send messages to encrypted SQS
+In order to let AWS EventBridge put messages (events) on AWS SQS that has server-side-encryption enabled, 
+the KMS key policy for external/master key needs to be updated. 
+
+Go to the `scripts` catalog and simply run the `put-kms-key-policy` script
+
+```
+./put-kms-key-policy.sh
+```
+
+The above script will update the current KMS key policy and give AWS EventBridge permissions
+to decrypt and to generate data key with the customer key. See [link](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-troubleshooting.html#eb-sqs-encrypted) for more info.
 
 ## Roadmap
 This repo is part of a project called Mitt Helsingborg. See the [project backlog](https://share.clickup.com/l/h/6-33382576-1/763b706816dbf53) for a complete list of upcoming features, known issues and releases.
