@@ -1,0 +1,20 @@
+[
+  {
+    "message": {
+      "title":  "SOME TITLE",
+      "text" : "SOME TEXT",
+    },
+    "type": "<info | maintenance>",
+    "start": "2022-01-01T00:00:00.000+01:00",
+    "expiry": "2022-01-01T01:00:00.000+01:00"
+  },
+  {
+    "message": {
+      "title": "SOME TITLE",
+      "text": "SOME TEXT" 
+    },
+    "type": "<info | maintenance>",
+    "start": "2022-01-01T00:00:00.000+01:00",
+    "expiry": "2022-01-01T01:00:00.000+01:00"
+  }
+]
