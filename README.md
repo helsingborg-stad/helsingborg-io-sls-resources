@@ -205,7 +205,7 @@ arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
 In order to let AWS EventBridge put messages (events) on AWS SQS that has server-side-encryption enabled, 
 the KMS key policy for external/master key needs to be updated. 
 
-Go to the `scripts` catalog and simply run the `put-kms-key-policy` script
+Go to the `scripts` catalog and simply run the `put-kms-key-policy` script:
 
 ```
 ./put-kms-key-policy.sh
