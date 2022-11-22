@@ -23,11 +23,12 @@ echo The currently active source account is \"${AWS_VAULT:Unknown}\"
 echo
 read -p "Type Y to continue: " CHOICE
 
-if [ "${CHOICE}" != "Y" ]; then
+lowerCaseChoice=$(echo "$CHOICE" | tr '[:upper:]' '[:lower:]')
+
+if [ "${lowerCaseChoice}" != "y" ]; then
     echo "Exiting script..."
     exit 1
 fi
-
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 KEY_POLICY_NAME="default"
@@ -74,3 +75,9 @@ aws kms put-key-policy \
     --policy-name "${KEY_POLICY_NAME}" \
     --key-id "${KEY_ID}" \
     --policy "${POLICY}"
+
+if [ $? == 0 ]; then
+    echo "Key policy successfully updated."
+else
+    echo "Key policy update failed."
+fi
