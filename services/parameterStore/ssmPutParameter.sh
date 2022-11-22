@@ -8,7 +8,7 @@ if ! [ -x "$(command -v "aws")" ]; then
   exit 1
 fi
 
-FILES=./envs/"[^example.]*"
+FILES=$(find envs -type f | grep -vE "example.*.json")
 CMD=aws
 
 usage() {
@@ -17,17 +17,22 @@ usage() {
 
 while [ "$1" != "" ]; do
   case $1 in
-    -s | --stage )  shift
-                    STAGE=$1
-                    ;;
-    -p | --profile ) shift
-                    PROFILE=$1
-                    ;;
-    -h | --help )   usage
-                    exit
-                    ;;
-    * )             usage
-                    exit 1
+  -s | --stage)
+    shift
+    STAGE=$1
+    ;;
+  -p | --profile)
+    shift
+    PROFILE=$1
+    ;;
+  -h | --help)
+    usage
+    exit
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
   esac
   shift
 done
@@ -41,22 +46,21 @@ if [ -n $PROFILE ]; then
   CMD="aws --profile=$PROFILE"
 fi
 
-for f in $FILES
-do
+for f in $FILES; do
   # Ignore if file starts with _
   [[ $f =~ ^.*_.* ]] && continue
   echo "Processing $f..."
   NAME=$(basename $f .json)
   # take action on each file. $f store current file name
-  VALUE="`cat $f`"
+  VALUE="$(cat $f)"
 
-  echo "Creating SSM paramter $NAME with value: $VALUE"
+  echo "Creating SSM parameter $NAME with value: $VALUE"
 
-  $CMD ssm put-parameter    \
-    --region eu-north-1     \
-    --type SecureString     \
-    --overwrite             \
-    --name "/$NAME/$STAGE"  \
-    --value "$VALUE" > /dev/null
+  $CMD ssm put-parameter \
+    --region eu-north-1 \
+    --type SecureString \
+    --overwrite \
+    --name "/$NAME/$STAGE" \
+    --value "$VALUE" >/dev/null
 
 done
