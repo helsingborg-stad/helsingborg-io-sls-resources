@@ -54,4 +54,5 @@ env.yml
 .vscode
 .dccache
 
-[!example.]*.json
+services/parameterStore/envs/*.json
+!services/parameterStore/envs/example.*.json
