@@ -30,7 +30,12 @@ resources:
                 SSEAlgorithm: 'aws:kms'
                 KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
               BucketKeyEnabled: true
-        AccessControl: PublicRead
+        AccessControl: Private
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
         CorsConfiguration:
           CorsRules:
             - AllowedMethods:
