@@ -24,8 +24,6 @@ resources:
             AttributeType: S
           - AttributeName: GSI2PK
             AttributeType: S
-          - AttributeName: GSI2SK
-            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
@@ -50,12 +48,10 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
-          - IndexName: GSI2-PK-SK-index
+          - IndexName: GSI2PK-index
             KeySchema:
               - AttributeName: GSI2PK
                 KeyType: HASH
-              - AttributeName: GSI2SK
-                KeyType: RANGE
             Projection:
               ProjectionType: ALL
 
