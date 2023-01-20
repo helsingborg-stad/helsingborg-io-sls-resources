@@ -3,6 +3,7 @@ DIR=$(dirname $0)
 
 # Stacks to remove
 SERVICES=(
+    "gateway/resources/version"
     "gateway/resources/users"
     "gateway/resources/timeslots"
     "gateway/resources/search"
