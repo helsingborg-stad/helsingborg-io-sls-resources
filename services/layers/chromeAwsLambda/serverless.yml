@@ -1,4 +1,7 @@
+org: hbgworks
 service: chrome-aws-lambda-layer
+
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -12,7 +15,8 @@ layers:
     path: executables
     name: chrome-aws-lambda-${self:custom.stage}
     description: Stores all the fonts and executable binaries required to convert html to pdf
-    compatibleRuntimes: nodejs12.x
+    compatibleRuntimes:
+      - nodejs12.x
 
 resources:
   Outputs:

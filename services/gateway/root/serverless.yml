@@ -1,6 +1,7 @@
+org: hbgworks
 service: gateway-root
 
-projectDir: ../../../
+frameworkVersion: ^3.26.0
 
 plugins:
   - serverless-bundle
@@ -8,9 +9,7 @@ plugins:
 custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
-  lambdaHashingVersion: 20201221
   name: aws
-  runtime: nodejs14.x
   stage: dev
   region: eu-north-1
   logRetentionInDays: 14
@@ -22,12 +21,12 @@ provider:
     stage: ${self:custom.stage}
     resourcesStage: ${self:custom.resourcesStage}
 
-  logs:
-    restApi:
-      fullExecutionData: false
-      executionLogging: true
-      accessLogging: true
-      format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
+  # logs:
+  #   restApi:
+  #     fullExecutionData: false
+  #     executionLogging: true
+  #     accessLogging: true
+  #     format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
 
 functions:
   apiRoot:

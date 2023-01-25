@@ -1,18 +1,18 @@
+org: hbgworks
 service: search-gateway-resource
+
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
   name: aws
-  runtime: nodejs12.x
   stage: dev
   region: eu-north-1
 
   apiGateway:
-    restApiId:
-      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
-    restApiRootResourceId:
-      !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+    restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
 
 resources:
   Resources:

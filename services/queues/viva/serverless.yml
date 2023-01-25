@@ -1,4 +1,7 @@
+org: hbgworks
 service: queues-viva
+
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -9,12 +12,11 @@ provider:
 
 resources:
   Resources:
-
     EventBridgeDeadLetterQueue:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:custom.resourcesStage}-EventBridgeDeadLetterQueue
-        MessageRetentionPeriod: 345600  # 4 days
+        MessageRetentionPeriod: 345600 # 4 days
         KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
 
     EventBridgeToDeadLetterQueuePolicy:
@@ -34,8 +36,8 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:custom.resourcesStage}-VivaSubmissionDeadLetterQueue
-        MessageRetentionPeriod: 1209600  # 14 days
-        RedriveAllowPolicy: 
+        MessageRetentionPeriod: 1209600 # 14 days
+        RedriveAllowPolicy:
           redrivePermission: byQueue
           sourceQueueArns:
             - !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-VivaSubmissionQueue

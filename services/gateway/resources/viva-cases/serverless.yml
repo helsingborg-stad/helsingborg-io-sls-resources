@@ -1,20 +1,19 @@
+org: hbgworks
 service: viva-cases-gateway-resource
 
-projectDir: ../../../../
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
   name: aws
-  runtime: nodejs14.x
   stage: dev
   region: eu-north-1
+  endpointType: regional
 
   apiGateway:
-    restApiId:
-      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
-    restApiRootResourceId:
-      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+    restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
 
   environment:
     stage: ${self:custom.stage}

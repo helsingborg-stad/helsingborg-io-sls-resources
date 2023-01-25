@@ -1,20 +1,18 @@
+org: hbgworks
 service: cases-gateway-resource
+
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
   name: aws
-  runtime: nodejs10.x
   stage: dev
   region: eu-north-1
-  tracing:
-    apiGateway: true
 
   apiGateway:
-    restApiId:
-      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiId
-    restApiRootResourceId:
-      "Fn::ImportValue": ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+    restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
 
   environment:
     stage: ${self:custom.stage}

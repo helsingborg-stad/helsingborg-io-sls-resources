@@ -1,4 +1,7 @@
+org: hbgworks
 service: users-dynamodb
+
+frameworkVersion: ^3.26.0
 
 custom:
   stage: ${file(../../../serverless.common.yml):custom.stage}
