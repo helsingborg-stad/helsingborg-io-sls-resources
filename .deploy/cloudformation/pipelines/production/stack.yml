@@ -56,8 +56,6 @@ Resources:
         Location: !Sub "${S3BucketArtifact}/cache"
         Type: S3
 
-
-
   ##
   # CodePipeline
   ##
@@ -82,7 +80,7 @@ Resources:
                 Version: "1"
                 Provider: CodeStarSourceConnection
               Configuration:
-                ConnectionArn: 
+                ConnectionArn:
                   Fn::ImportValue: github-connection-CodeStarConnection
                 FullRepositoryId: !Sub "${GitHubOwner}/${GitHubRepo}"
                 BranchName: !Ref GitHubBranch
@@ -92,8 +90,7 @@ Resources:
               RunOrder: 1
         - Name: Stage
           Actions:
-            -
-              Name: DeployStage
+            - Name: DeployStage
               ActionTypeId:
                 Category: Build
                 Owner: AWS
@@ -116,9 +113,8 @@ Resources:
                       "value": "stage"
                     }
                   ]
-              InputArtifacts: 
-                - 
-                  Name: SourceOutput
+              InputArtifacts:
+                - Name: SourceOutput
               RunOrder: 1
         - Name: Production
           Actions:
@@ -130,8 +126,7 @@ Resources:
             #     Version: "1"
             #     Provider: Manual
             #   RunOrder: 1
-            -
-              Name: DeployProd
+            - Name: DeployProd
               ActionTypeId:
                 Category: Build
                 Owner: AWS
@@ -154,14 +149,12 @@ Resources:
                       "value": "prod"
                     }
                   ]
-              InputArtifacts: 
-                - 
-                  Name: SourceOutput
+              InputArtifacts:
+                - Name: SourceOutput
               RunOrder: 1
         - Name: Test
           Actions:
-            -
-              Name: DeployTest
+            - Name: DeployTest
               ActionTypeId:
                 Category: Build
                 Owner: AWS
@@ -184,11 +177,9 @@ Resources:
                       "value": "test"
                     }
                   ]
-              InputArtifacts: 
-                - 
-                  Name: SourceOutput
+              InputArtifacts:
+                - Name: SourceOutput
               RunOrder: 2
-
 
   ##
   # IAM
@@ -215,31 +206,27 @@ Resources:
       PolicyDocument:
         Version: 2012-10-17
         Statement:
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
               - s3:*
             Resource:
               - !Sub arn:aws:s3:::${S3BucketArtifact}/*
               - !Sub arn:aws:s3:::${S3BucketArtifact}
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
               - kms:Decrypt
             Resource: !GetAtt KMSKey.Arn
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
               - logs:CreateLogGroup
               - logs:CreateLogStream
               - logs:PutLogEvents
             Resource: arn:aws:logs:*:*:*
-          -
-            Sid: cloudformation
+          - Sid: cloudformation
             Effect: Allow
             Action:
               - cloudformation:ValidateTemplate
-            Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:*'
+            Resource: !Sub "arn:aws:cloudformation:${AWS::Region}:*"
           - Sid: iam
             Effect: Allow
             Action:
@@ -264,8 +251,7 @@ Resources:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
-          -
-            Effect: Allow
+          - Effect: Allow
             Principal:
               Service:
                 - codepipeline.amazonaws.com
@@ -318,8 +304,6 @@ Resources:
       Roles:
         - !Ref IAMRolePipeline
 
-
-
   ##
   # KMS
   ##
@@ -333,8 +317,7 @@ Resources:
         Version: 2012-10-17
         Id: Key
         Statement:
-          -
-            Sid: Allows admin of the key
+          - Sid: Allows admin of the key
             Effect: Allow
             Principal:
               AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
@@ -352,8 +335,7 @@ Resources:
               - kms:ScheduleKeyDeletion
               - kms:CancelKeyDeletion
             Resource: "*"
-          -
-            Sid: Allow use of the key for CryptoGraphy Lambda
+          - Sid: Allow use of the key for CryptoGraphy Lambda
             Effect: Allow
             Principal:
               AWS:
@@ -372,8 +354,6 @@ Resources:
     Properties:
       AliasName: !Sub alias/${AWS::StackName}-xaccounts
       TargetKeyId: !Ref KMSKey
-
-
 
   ##
   # S3
