@@ -80,11 +80,11 @@ resources:
           - Ref: VivaSubmissionQueue
 
     PostToVivaQueue:
-      Type: "AWS::Events::Rule"
+      Type: 'AWS::Events::Rule'
       Properties:
         Targets:
           - Arn: !GetAtt VivaSubmissionQueue.Arn
-            Id: "VivaSubmissionQueue"
+            Id: 'VivaSubmissionQueue'
         EventPattern:
           source:
             - cases.database
@@ -94,13 +94,13 @@ resources:
             dynamodb:
               NewImage:
                 provider:
-                  S: ["VIVA"]
+                  S: ['VIVA']
                 status:
                   M:
                     type:
-                      S: [{ "prefix": "active:submitted" }]
+                      S: [{ 'prefix': 'active:submitted' }]
                 state:
-                  S: ["PDF_GENERATED"]
+                  S: ['PDF_GENERATED']
 
     DeadLetterQueueAlarmTopic:
       Type: AWS::SNS::Topic
@@ -108,8 +108,8 @@ resources:
     QueueDepthAlarm:
       Type: AWS::CloudWatch::Alarm
       Properties:
-        AlarmDescription: "Alarm if queue depth grows beyond 1 messages"
-        Namespace: "AWS/SQS"
+        AlarmDescription: 'Alarm if queue depth grows beyond 1 messages'
+        Namespace: 'AWS/SQS'
         MetricName: ApproximateNumberOfMessagesVisible
         Dimensions:
           - Name: QueueName

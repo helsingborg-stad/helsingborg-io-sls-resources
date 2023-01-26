@@ -16,21 +16,21 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: !Join
-          - "-"
-          - - "attachments-s3"
+          - '-'
+          - - 'attachments-s3'
             - !Select
               - 0
               - !Split
-                - "-"
+                - '-'
                 - !Select
                   - 2
                   - !Split
-                    - "/"
-                    - !Ref "AWS::StackId"
+                    - '/'
+                    - !Ref 'AWS::StackId'
         BucketEncryption:
           ServerSideEncryptionConfiguration:
             - ServerSideEncryptionByDefault:
-                SSEAlgorithm: "aws:kms"
+                SSEAlgorithm: 'aws:kms'
                 KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
               BucketKeyEnabled: true
         AccessControl: Private
@@ -47,12 +47,12 @@ resources:
                 - POST
                 - HEAD
               AllowedOrigins:
-                - "*"
+                - '*'
               AllowedHeaders:
-                - "*"
+                - '*'
         LifecycleConfiguration:
           Rules:
-            - Id: "expire-all-rule"
+            - Id: 'expire-all-rule'
               Status: Enabled
               ExpirationInDays: 3
         NotificationConfiguration:
