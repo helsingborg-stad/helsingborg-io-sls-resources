@@ -14,12 +14,6 @@
     "url": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources/issues"
   },
   "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
-  "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^1.19.1"
-  },
   "main": "loadUserData.js",
   "dependencies": {
     "aws-sdk": "^2.814.0"
