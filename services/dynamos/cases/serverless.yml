@@ -69,7 +69,7 @@ resources:
 
     CasesTableAllIndexArn:
       Value:
-        Fn::Join: ["/", ["Fn::GetAtt": [CasesTable, Arn], "index", "*"]]
+        Fn::Join: ['/', ['Fn::GetAtt': [CasesTable, Arn], 'index', '*']]
       Export:
         Name: ${self:custom.stage}-CasesTableAllIndexArn
 
