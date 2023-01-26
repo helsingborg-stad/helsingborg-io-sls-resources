@@ -52,7 +52,9 @@ env.yml
 # stuff
 .DS_Store
 .vscode
-.dccache
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
 
 services/parameterStore/envs/*.json
 !services/parameterStore/envs/example.*.json
