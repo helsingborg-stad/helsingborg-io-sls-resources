@@ -21,7 +21,7 @@ const diff = lastCommmitHashFile => {
     try {
       // Return empty file list if last deploy is on the same commit hash as the current one.
       if (process.env.CODEBUILD_RESOLVED_SOURCE_VERSION === lastCommmitHash) {
-        return []; 
+        return [];
       }
 
       gitDiff = childProcess.execSync(
