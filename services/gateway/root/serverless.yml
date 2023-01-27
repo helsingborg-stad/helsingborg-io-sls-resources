@@ -21,13 +21,6 @@ provider:
     stage: ${self:custom.stage}
     resourcesStage: ${self:custom.resourcesStage}
 
-  # logs:
-  #   restApi:
-  #     fullExecutionData: false
-  #     executionLogging: true
-  #     accessLogging: true
-  #     format: '{"requestId": "$context.requestId", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "path": "$context.path", "status": "$context.status", "userAgent": "$context.identity.userAgent"}'
-
 functions:
   apiRoot:
     handler: handler.main
