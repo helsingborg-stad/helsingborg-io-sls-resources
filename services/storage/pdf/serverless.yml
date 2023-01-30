@@ -1,4 +1,7 @@
+org: hbgworks
 service: pdf-storage
+
+frameworkVersion: ^3.26.0
 
 custom: ${file(../../../serverless.common.yml):custom}
 
