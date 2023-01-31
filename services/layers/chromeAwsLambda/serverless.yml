@@ -16,7 +16,7 @@ layers:
     name: chrome-aws-lambda-${self:custom.stage}
     description: Stores all the fonts and executable binaries required to convert html to pdf
     compatibleRuntimes:
-      - nodejs12.x
+      - nodejs16.x
 
 resources:
   Outputs:
