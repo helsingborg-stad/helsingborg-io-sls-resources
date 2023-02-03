@@ -1,0 +1,36 @@
+org: hbgworks
+service: viva-period-gateway-resource
+
+frameworkVersion: ^3.26.0
+
+custom: ${file(../../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+  endpointType: regional
+
+  apiGateway:
+    restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+resources:
+  Resources:
+    ApiGatewayResourceVivaPeriod:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: viva-period
+
+  Outputs:
+    ApiGatewayResourceVivaPeriod:
+      Value:
+        Ref: ApiGatewayResourceVivaPeriod
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceVivaPeriod

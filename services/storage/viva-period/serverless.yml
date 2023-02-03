@@ -1,0 +1,44 @@
+org: hbgworks
+service: viva-period-s3
+
+frameworkVersion: ^3.26.0
+
+custom: ${file(../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    VivaPeriodBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: 'aws:kms'
+                KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+              BucketKeyEnabled: true
+
+  Outputs:
+    VivaPeriodBucketArn:
+      Value:
+        Fn::GetAtt:
+          - VivaPeriodBucket
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-VivaPeriodBucketArn
+
+    VivaPeriodBucketName:
+      Value: !Ref VivaPeriodBucket
+
+      Export:
+        Name: ${self:custom.stage}-VivaPeriodBucketName
