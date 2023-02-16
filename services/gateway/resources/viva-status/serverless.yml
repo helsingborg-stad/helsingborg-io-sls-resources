@@ -1,0 +1,36 @@
+org: hbgworks
+service: viva-status-gateway-resource
+
+frameworkVersion: ^3.26.0
+
+custom: ${file(../../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+  endpointType: regional
+
+  apiGateway:
+    restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+resources:
+  Resources:
+    ApiGatewayResourceVivaStatus:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId: ${self:provider.apiGateway.restApiId}
+        ParentId: ${self:provider.apiGateway.restApiRootResourceId}
+        PathPart: viva-status
+
+  Outputs:
+    ApiGatewayResourceVivaStatus:
+      Value:
+        Ref: ApiGatewayResourceVivaStatus
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayResourceVivaStatus
