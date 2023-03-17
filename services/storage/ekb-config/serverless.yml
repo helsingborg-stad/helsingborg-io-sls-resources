@@ -1,0 +1,44 @@
+org: hbgworks
+service: ekb-config-s3
+
+frameworkVersion: ^3.26.0
+
+custom: ${file(../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    EkbConfigBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: 'aws:kms'
+                KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+              BucketKeyEnabled: true
+
+  Outputs:
+    EkbConfigBucketArn:
+      Value:
+        Fn::GetAtt:
+          - EkbConfigBucket
+          - Arn
+      Export:
+        Name: ${self:custom.stage}-EkbConfigBucketArn
+
+    EkbConfigBucketName:
+      Value: !Ref EkbConfigBucket
+
+      Export:
+        Name: ${self:custom.stage}-EkbConfigBucketName
