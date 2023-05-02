@@ -32,6 +32,19 @@ resources:
         Queues:
           - !Ref EventBridgeDeadLetterQueue
 
+    EventBridgeToVivaQueuePolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: events.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !GetAtt VivaSubmissionQueue.Arn
+        Queues:
+          - Ref: VivaSubmissionQueue
+
     VivaSubmissionDeadLetterQueue:
       Type: AWS::SQS::Queue
       Properties:
@@ -65,19 +78,6 @@ resources:
           maxReceiveCount: 10
         VisibilityTimeout: 120
         KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
-
-    EventBridgeToVivaQueuePolicy:
-      Type: AWS::SQS::QueuePolicy
-      Properties:
-        PolicyDocument:
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service: events.amazonaws.com
-              Action: SQS:SendMessage
-              Resource: !GetAtt VivaSubmissionQueue.Arn
-        Queues:
-          - Ref: VivaSubmissionQueue
 
     PostToVivaQueue:
       Type: 'AWS::Events::Rule'
@@ -122,11 +122,80 @@ resources:
         AlarmActions:
           - Ref: DeadLetterQueueAlarmTopic
 
+    ### COMPLETIONS
+    VivaCompletionsSubmissionDLQ:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.resourcesStage}-VivaCompletionsSubmissionDLQ
+        MessageRetentionPeriod: 1209600 # 14 days
+        RedriveAllowPolicy:
+          redrivePermission: byQueue
+          sourceQueueArns:
+            - !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-VivaCompletionsSubmissionQueue
+        KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+
+    VivaCompletionsSubmissionQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.resourcesStage}-VivaCompletionsSubmissionQueue
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt VivaCompletionsSubmissionDLQ.Arn
+          maxReceiveCount: 1
+        VisibilityTimeout: 60
+        KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+
+    EventBridgeToVivaCompletionsSubmissionQueuePolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: events.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !GetAtt VivaCompletionsSubmissionQueue.Arn
+        Queues:
+          - Ref: VivaCompletionsSubmissionQueue
+
+    VivaCompletionsSubmissionDLQPolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: sqs.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-VivaCompletionsSubmissionQueue
+        Queues:
+          - !Ref VivaCompletionsSubmissionDLQ
+
+    VivaCompletionsQueueEventRule:
+      Type: 'AWS::Events::Rule'
+      Properties:
+        Targets:
+          - Arn: !GetAtt VivaCompletionsSubmissionQueue.Arn
+            Id: 'VivaCompletionsSubmissionQueue'
+        EventPattern:
+          source:
+            - casesApi.updateCase
+          detail-type:
+            - casesApiUpdateCaseSuccess
+          detail:
+            status:
+              type: [{ 'prefix': 'active:submitted' }]
+            state: ['VIVA_RANDOM_CHECK_REQUIRED', 'VIVA_COMPLETION_REQUIRED']
+
   Outputs:
     VivaSubmissionQueueArn:
       Value: !GetAtt VivaSubmissionQueue.Arn
       Export:
         Name: ${self:custom.stage}-VivaSubmissionQueueArn
+
+    VivaCompletionsSubmissionQueueArn:
+      Value: !GetAtt VivaCompletionsSubmissionQueue.Arn
+      Export:
+        Name: ${self:custom.stage}-VivaCompletionsSubmissionQueueArn
 
     EventBridgeDeadLetterQueueArn:
       Value: !GetAtt EventBridgeDeadLetterQueue.Arn
