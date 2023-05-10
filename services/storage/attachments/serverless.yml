@@ -3,12 +3,18 @@ service: attachments-s3
 
 frameworkVersion: ^3.26.0
 
+plugins:
+  - serverless-deployment-bucket
+
 custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
   stage: dev
   region: eu-north-1
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
 
 resources:
   Resources:
@@ -30,7 +36,7 @@ resources:
         BucketEncryption:
           ServerSideEncryptionConfiguration:
             - ServerSideEncryptionByDefault:
-                SSEAlgorithm: 'aws:kms'
+                SSEAlgorithm: "aws:kms"
                 KMSMasterKeyID: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
               BucketKeyEnabled: true
         AccessControl: Private

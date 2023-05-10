@@ -3,6 +3,9 @@ service: timeslots-gateway-resource
 
 frameworkVersion: ^3.26.0
 
+plugins:
+  - serverless-deployment-bucket
+
 custom: ${file(../../../../serverless.common.yml):custom}
 
 provider:
@@ -10,6 +13,9 @@ provider:
   stage: dev
   region: eu-north-1
   endpointType: regional
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
 
   apiGateway:
     restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId

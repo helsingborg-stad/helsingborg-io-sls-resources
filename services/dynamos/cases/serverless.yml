@@ -3,21 +3,25 @@ service: cases-dynamodb
 
 frameworkVersion: ^3.26.0
 
-custom:
-  stage: ${file(../../../serverless.common.yml):custom.stage}
-  tableName: ${self:custom.stage}-cases
+plugins:
+  - serverless-deployment-bucket
+
+custom: ${file(../../../serverless.common.yml):custom}
 
 provider:
   name: aws
   stage: dev
   region: eu-north-1
 
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
+
 resources:
   Resources:
     CasesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.tableName}
+        TableName: ${self:custom.stage}-cases
         AttributeDefinitions:
           - AttributeName: PK
             AttributeType: S

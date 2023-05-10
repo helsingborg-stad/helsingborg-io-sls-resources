@@ -5,6 +5,7 @@ frameworkVersion: ^3.26.0
 
 plugins:
   - serverless-bundle
+  - serverless-deployment-bucket
 
 custom: ${file(../../../serverless.common.yml):custom}
 
@@ -20,6 +21,9 @@ provider:
   environment:
     stage: ${self:custom.stage}
     resourcesStage: ${self:custom.resourcesStage}
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
 
 functions:
   apiRoot:

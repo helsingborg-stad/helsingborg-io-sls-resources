@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "postinstall": "husky install",
+    "commit": "cz"
   },
   "repository": {
     "type": "git",
@@ -17,14 +19,9 @@
     "url": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources/issues"
   },
   "homepage": "https://github.com/helsingborg-stad/helsingborg-io-sls-resources#readme",
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/cli": "15.0.0",
+    "@commitlint/config-conventional": "15.0.0",
     "babel-eslint": "10.1.0",
     "commitizen": "^4.3.0",
     "commitlint": "^8.3.5",
@@ -38,7 +35,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/commitlint"
+      "path": "cz-conventional-changelog"
     }
   }
 }

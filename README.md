@@ -27,11 +27,10 @@
     - [Create an AWS Account (Personal)](#create-an-aws-account-personal)
     - [Create an AWS IAM User](#create-an-aws-iam-user)
     - [Adding your access key for the IAM User to AWS CLI](#adding-your-access-key-for-the-iam-user-to-aws-cli)
-    - [Serverless Framework](#serverless-framework)
   - [Installation](#installation)
     - [Environment variables (SSM)](#environment-variables-ssm)
-    - [Certificates (S3 Bucket)](#certificates-s3-bucket)
-    - [Database (DynamoDB)](#database-dynamodb)
+    - [Build project](#build-project)
+    - [Deploy project](#deploy-project)
   - [KMS](#kms)
     - [Prerequisites](#prerequisites-1)
     - [Create and import key in AWS](#create-and-import-key-in-aws)
@@ -53,8 +52,8 @@ If you have a service that doesn’t make sense to replicate in an ephemeral env
 - AWS Account
 - AWS IAM user
 - Homebrew (macOS)
-- NodeJS
-- NPM
+- NodeJS 14 or higher
+
 - [Serverless Framework](https://serverless.com/)
 
 ### AWS CLI (Homebrew on macOS)
@@ -88,14 +87,6 @@ Simply run the following with your Secret Key ID and your Access Key.
 aws configure
 ```
 
-### Serverless Framework
-
-The Serverless Framework helps you develop and deploy your AWS Lambda functions, along with the AWS infrastructure resources they require.
-
-```
-npm install serverless -g
-```
-
 ## Installation
 
 Clone this repo.
@@ -114,20 +105,18 @@ chmod +x ssmPutParameter.sh
 ./ssmPutParameter.sh
 ```
 
-### Certificates (S3 Bucket)
+### Build project
+NOTE that build requires Yarn and Node v14 or higher to be installed
+```
+cd helsingborg-io-sls-resources
+scripts/build.sh
+```
+
+### Deploy project
 
 ```
-cd ../certificates
-sls deploy
-```
-
-**Take a note of the generated bucket name.**
-
-### Database (DynamoDB)
-
-```
-cd ../database
-sls deploy
+cd helsingborg-io-sls-resources
+scripts/deploy.sh
 ```
 
 Once you deploy the resources in this repo, head over to this [accompanying repo](https://github.com/helsingborg-stad/helsingborg-io-sls-api) to deploy the API services.
@@ -153,9 +142,11 @@ If using libressl, install openssl brew and use the full path to encrypt your ke
 brew install openssl
 brew info openssl
 ```
+Either save the binary path for later or follow instructions to make openssl first in PATH before libressl.
 
 ### Create and import key in AWS 
 First create the key storage space in AWS KMS.  
+All commands below rely on session environment variables and should be executed in the same terminal window.  
 Modify the REGION and KEY_ALIAS exports to fit your naming scheme and AWS region.  
 ```
 export REGION=eu-north-1
@@ -178,7 +169,7 @@ dd if=/dev/urandom of=PlaintextKeyMaterial.bin bs=32 count=1
 
 Encrypt your key material with the AWS tokens and key.
 ```
-/usr/local/opt/openssl@1.1/bin/openssl pkeyutl -in PlaintextKeyMaterial.bin -out EncryptedKeyMaterial.bin -inkey PublicKey.bin -keyform DER -pubin -encrypt -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
+/usr/local/opt/openssl@3/bin/openssl pkeyutl -in PlaintextKeyMaterial.bin -out EncryptedKeyMaterial.bin -inkey PublicKey.bin -keyform DER -pubin -encrypt -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256
 ```
 
 Import the key to AWS KMS.

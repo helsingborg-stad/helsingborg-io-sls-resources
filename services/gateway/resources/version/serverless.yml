@@ -1,15 +1,22 @@
 org: hbgworks
 service: version-gateway-resource
+projectDir: ../../../../
 
 frameworkVersion: ^3.26.0
 
 custom: ${file(../../../../serverless.common.yml):custom}
+
+plugins:
+  - serverless-deployment-bucket
 
 provider:
   name: aws
   stage: dev
   region: eu-north-1
   endpointType: regional
+
+  deploymentBucket:
+    name: ${self:custom.deploymentBucketName}
 
   apiGateway:
     restApiId: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
