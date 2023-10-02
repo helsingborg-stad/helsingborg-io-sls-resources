@@ -1,0 +1,98 @@
+org: hbgworks
+service: queues-html-pdf
+
+frameworkVersion: ^3.26.0
+
+custom: ${file(../../../serverless.common.yml):custom}
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-north-1
+
+resources:
+  Resources:
+    EventBridgeGeneratePdfFromHtmlEventPolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: events.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !GetAtt HtmlPdfQueue.Arn
+        Queues:
+          - Ref: HtmlPdfQueue
+
+    HtmlPdfDeadLetterQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.resourcesStage}-HtmlPdfDeadLetterQueue
+        MessageRetentionPeriod: 1209600 # 14 days
+        RedriveAllowPolicy:
+          redrivePermission: byQueue
+          sourceQueueArns:
+            - !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-HtmlPdfQueue
+        KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+
+    HtmlPdfDeadLetterQueuePolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: sqs.amazonaws.com
+              Action: SQS:SendMessage
+              Resource: !Sub arn:aws:sqs:${self:provider.region}:${AWS::AccountId}:${self:custom.stage}-HtmlPdfQueue
+        Queues:
+          - !Ref HtmlPdfDeadLetterQueue
+
+    HtmlPdfQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.resourcesStage}-HtmlPdfQueue
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt HtmlPdfDeadLetterQueue.Arn
+          maxReceiveCount: 1
+        VisibilityTimeout: 60
+        KmsMasterKeyId: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/external/master
+
+    GeneratePdfFromHtmlEventRule:
+      Type: 'AWS::Events::Rule'
+      Properties:
+        Targets:
+          - Arn: !GetAtt HtmlPdfQueue.Arn
+            Id: 'HtmlPdfQueue'
+        EventPattern:
+          source:
+            - vivaMs.generateRecurringCaseHtml
+          detail-type:
+            - htmlGeneratedSuccess
+
+    DeadLetterQueueAlarmTopic:
+      Type: AWS::SNS::Topic
+
+    QueueDepthAlarm:
+      Type: AWS::CloudWatch::Alarm
+      Properties:
+        AlarmDescription: 'Alarm if queue depth grows beyond 1 messages'
+        Namespace: 'AWS/SQS'
+        MetricName: ApproximateNumberOfMessagesVisible
+        Dimensions:
+          - Name: QueueName
+            Value: !GetAtt HtmlPdfDeadLetterQueue.QueueName
+        Statistic: Sum
+        Period: 300
+        EvaluationPeriods: 1
+        Threshold: 0
+        ComparisonOperator: GreaterThanThreshold
+        AlarmActions:
+          - Ref: DeadLetterQueueAlarmTopic
+
+  Outputs:
+    HtmlPdfQueue:
+      Value: !GetAtt HtmlPdfQueue.Arn
+      Export:
+        Name: ${self:custom.stage}-HtmlPdfQueueArn
